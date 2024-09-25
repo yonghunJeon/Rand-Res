@@ -14,8 +14,16 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// 정적 파일 제공
-app.use(express.static(path.join(__dirname, '..', 'public')));
+// 정적 파일 제공 및 캐시 제어 헤더 설정
+app.use(express.static(path.join(__dirname, '..', 'public'), {
+    setHeaders: (res, path) => {
+        if (path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.html')) {
+            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+            res.setHeader('Pragma', 'no-cache');
+            res.setHeader('Expires', '0');
+        }
+    }
+}));
 
 // 세션 설정
 app.use(session({
