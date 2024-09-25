@@ -69,4 +69,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+
+    document.getElementById('guest-access-btn').addEventListener('click', function() {
+        localStorage.setItem('loggedInUsername', '게스트');
+        window.location.href = 'map_page.html';
+    });
 });

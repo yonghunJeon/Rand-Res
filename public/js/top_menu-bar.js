@@ -2,6 +2,12 @@ class HeaderComponent extends HTMLElement {
     connectedCallback() {
         const loggedInUsername = localStorage.getItem('loggedInUsername');
 
+        // loggedInUsername이 null이면 index.html로 리디렉션
+        if (!loggedInUsername) {
+            window.location.href = 'index.html';
+            return;
+        }
+
         this.innerHTML = `
             <header>
                 <button class="menu-button"><i class="fas fa-bars"></i></button>
@@ -176,5 +182,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const userInfoBtn = document.getElementById('user-info-btn');
     if (userInfoBtn) {
         userInfoBtn.addEventListener('click', showUserInfo);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('loggedInUsername');
+        });
     }
 });
