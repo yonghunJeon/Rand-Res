@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>로그인</title>
+    <link rel="stylesheet" href="styles/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <h2>Random Restaurant</h2>
+            <form id="login-form" action="/login" method="post">
+                <div class="input-box">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" name="username" placeholder="아이디" required>
+                </div>
+                <div class="input-box">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="비밀번호" required>
+                </div>
+                <div class="options">
+                    <label><input type="checkbox" id="remember-me"> 아이디 / 비밀번호 저장</label>
+                </div>
+                <button type="submit" class="login-btn">로그인</button>
+            </form>
+            <a href="sign-up_page.html" class="sign-up-btn" id="sign-up-btn">회원가입</a>
+            <button id="guest-access-btn" class="guest-access-btn">게스트</button> <!-- 비로그인 버튼 추가 -->
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/save_user-info.js"></script>
+    <script src="js/ui-navigator.js"></script>
+    <script>
+        document.getElementById('guest-access-btn').addEventListener('click', function() {
+            window.location.href = '/map_page.html'; // 비로그인 상태로 map_page.html로 리디렉션
+        });
+    </script>
+</body>
+</html>

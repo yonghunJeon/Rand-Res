@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="styles/sign-up.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    <div class="container-background">
+        <div class="sign-up-container">
+            <h2>회원가입</h2>
+            <form id="sign-up-form">
+                <div class="form-group">
+                    <label for="accesskey">후원 인증 키</label>
+                    <input type="text" id="accesskey" name="accesskey" placeholder="발급받은 인증 키 입력">
+                    <button type="button" id="verify-button">인증 하기</button>
+                </div>
+                <div class="form-group">
+                    <label for="username">아이디 *</label>
+                    <input type="text" id="username" name="username" placeholder="아이디 입력 (6~20자)" required>
+                    <button type="button" onclick="checkUsername()">중복 확인</button>
+                </div>
+                <div class="form-group">
+                    <label for="password">비밀번호 *</label>
+                    <input type="password" id="password" name="password" placeholder="비밀번호 입력 (8~20자)" required>
+                </div>
+                <div class="form-group">
+                    <label for="password-confirm">비밀번호 확인 *</label>
+                    <input type="password" id="password-confirm" placeholder="비밀번호 재입력" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail (선택 사항)</label>
+                    <input type="text" id="email" name="email" placeholder="(선택 사항)">
+                </div>
+                <div class="form-group">
+                    <button type="submit">가입 완료</button>
+                </div>
+                <a href="index.html" class="cancel-btn" id="cancel-btn">가입 취소</a>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/send_user-info.js"></script>
+    <script src="js/ui-navigator.js"></script>
+</body>
+</html>

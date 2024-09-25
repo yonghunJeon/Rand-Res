@@ -1,0 +1,80 @@
+html, 
+body {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: auto;
+    overflow: hidden;
+    background: #f8f4ff;
+}
+
+.map-container {
+    padding: 50px 0 100px 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    overflow: auto;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#recommend-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #00b7ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#recommend-button:hover {
+    background-color: #0095cf;
+}
+
+#restaurant-info {
+    margin-top: 20px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.map-container.mobile #restaurant-info {
+    margin-top: 0px;
+    margin-bottom: 100%;
+}
+
+#error-message {
+    color: red;
+    font-size: 18px;
+    text-align: center;
+}
+
+#map {
+    width: 80%;
+    max-width: 700px;
+    min-width: 300px;
+    height: 500px;
+    position: relative;
+    z-index: 14;
+}
+
+.map-container.mobile #map {
+    width: 90%;
+    height: 150vh;
+    max-height: 400px;
+    min-height: 300px;
+}
+
+.naver-map .map-control {
+    font-size: 15px;
+}

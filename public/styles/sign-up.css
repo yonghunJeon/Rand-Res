@@ -1,0 +1,145 @@
+body {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: auto;
+    overflow: auto;
+}
+
+.container-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15% 0;
+    background-color: white;
+}
+
+.login-container.mobile {
+    padding: 15% 0;
+}
+
+.login-container.mobile.landscape {
+    padding: 1%;
+}
+
+.login-container.mobile.portrait {
+    padding: 15% 0;
+}
+
+.container-background.desktop {
+    @media (min-aspect-ratio: 1/1) {
+        padding: 4% 0;
+    }
+
+    @media (max-aspect-ratio: 1/1) {
+        padding: 15% 0;
+    }
+}
+
+.sign-up-container {
+    width: 300px;
+    height: 97%;
+    background-color: white;
+    padding: 0 20px 20px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    border-radius: 5px;
+}
+
+.form-group input[type="text"] {
+    width: calc(100% - 22px);
+}
+
+.-group {
+    display: flex;
+    align-items: center;
+}
+
+.form-group button {
+    width: 100%;
+    padding: 10px;
+    background-color: #00b7ff;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+}
+
+.form-group button:hover {
+    background: #0095cf;
+}
+
+.form-group .secondary-btn {
+    background-color: #ffcc00;
+    margin-top: 0;
+    margin-left: 10px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-group button {
+    width: 48%;
+}
+
+.cancel-btn {
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 30px;
+    color: #00b7ff;
+    font-size: 16px;
+    background: #f0f0f0;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.cancel-btn:hover {
+    color: #ffffff;
+    background: #0095cf;
+}
+
+.cancel-btn:hover p {
+    color: #ffffff;
+}

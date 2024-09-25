@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Random Restaurant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="styles/menu-bar.css">
+    <link rel="stylesheet" href="styles/random-restaurant.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=jkppj5s08j"></script>
+    <script src="js/ui-navigator.js"></script>
+</head>
+<body>
+    <header-component></header-component>
+    <div class="map-container">
+        <h1>Random Restaurant</h1>
+        <button id="recommend-button">식당 추천 받기</button>
+        <div id="map"></div>
+        <div id="restaurant-info"></div>
+    </div>
+    <script src="js/random-restaurant.js"></script>
+    <script src="js/top_menu-bar.js"></script>
+</body>
+</html>

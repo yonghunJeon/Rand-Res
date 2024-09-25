@@ -1,0 +1,165 @@
+html, 
+body {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: auto;
+    overflow: hidden;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.login-container.mobile {
+    padding: 40% 0;
+}
+
+.login-container.mobile.landscape {
+    padding: 5% 11%;
+}
+
+.login-container.mobile.portrait {
+    padding: 40% 0;
+}
+
+.login-container.desktop {
+    @media (min-aspect-ratio: 1/1) {
+        padding: 11% 0;
+    }
+
+    @media (max-aspect-ratio: 1/1) {
+        padding: 40% 0;
+    }
+}
+
+.login-box {
+    box-sizing: border-box;
+    width: 300px;
+    height: 100%;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-box h2 {
+    font-weight: bold;
+    margin-top: 0px;
+}
+
+.login-btn, .guest-access-btn {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-btn {
+    background: #00b7ff;
+}
+
+.login-btn:hover {
+    background: #0095cf;
+}
+
+.guest-access-btn {
+    background: #00b7ff;
+    margin-top: 10px; /* 로그인 버튼과 간격 추가 */
+}
+
+.guest-access-btn:hover {
+    background: #0095cf;
+}
+
+.sign-up-btn {
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 30px;
+    color: #00b7ff;
+    font-size: 16px;
+    background: #f0f0f0;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.sign-up-btn:hover {
+    color: #ffffff;
+    background: #0095cf;
+}
+
+.sign-up-btn:hover p {
+    color: #ffffff;
+}
+
+.logo {
+    font-size: 90px;
+    background: #f0f0f0;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #007bff;
+}
+
+.input-box {
+    position: relative;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.input-box i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    font-size: 18px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    background: #f0f0f0;
+    border: none;
+    outline: none;
+    border-radius: 30px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    color: #777;
+}
+
+.options label {
+    display: flex;
+    margin-top: 0px;
+    align-items: center;
+}
+
+.options a {
+    text-decoration: none;
+    color: #777;
+}

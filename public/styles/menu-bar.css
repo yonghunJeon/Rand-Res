@@ -1,0 +1,147 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background: #f8f4ff;
+    padding: 0;
+}
+
+body {
+    padding-top: 50px;
+}
+
+header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+header h1, header hButton, header hButton1, header hButton2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+header h1 a, header hButton a, header hButton1 a, header hButton2 a {
+    text-decoration: none;
+    color: inherit;
+    background: none;
+    border: none;
+    position: absolute;
+    top: 11px;
+    font-size: 24px;
+    z-index: 20;
+}
+
+header hButton a {
+    right: 155px;
+}
+
+header hButton1 a {
+    right: 107px;
+}
+
+header hButton2 a {
+    right: 65px;
+}
+
+.menu-user, .menu-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.menu, .menu1 {
+    display: none;
+    position: fixed;
+    top: 60px;
+    background-color: #ffffff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    z-index: 15;
+}
+
+.menu {
+    left: 20px;
+}
+
+.menu1 {
+    right: 20px;
+}
+
+.menu.active, .menu1.active {
+    display: block;
+}
+
+.menu ul, .menu1 ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    padding-top: 10px;
+}
+
+.menu li, .menu1 li {
+    margin: 10px 0;
+}
+
+.menu a, .menu1 a {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.menu a:hover, .menu1 a:hover {
+    background-color: #e9effd;
+}
+
+.menu .active a, .menu1 .active a {
+    background-color: #ddf5ff;
+    border-left: 3px solid #00b7ff;
+    color: #000000;
+    font-weight: bold;
+}
+
+.profile-section {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile-section h2 {
+    margin: 10px 0 5px;
+    font-size: 18px;
+    color: #333;
+}
+
+.profile-section p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #777;
+}
+
+.profile-section i {
+    color: #888;
+    font-size: 30px;
+    margin-right: 5px;
+}
+
+.profile-section i2 {
+    color: #888;
+    margin-right: 5px;
+}
