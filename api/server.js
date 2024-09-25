@@ -171,6 +171,12 @@ app.get('/geocode-address', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch data from Naver Geocoding API' });
     }
 });
+
+// 루트 경로 설정
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // 환경 변수 검증
 if (!process.env.NAVER_MAP_CLIENT_ID || !process.env.NAVER_MAP_CLIENT_SECRET) {
     console.error('Naver Map API credentials are missing.');
