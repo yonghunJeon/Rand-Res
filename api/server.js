@@ -13,7 +13,9 @@ const port = process.env.PORT || 3000;
 // Body Parser 설정
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+
+// 정적 파일 제공
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // 세션 설정
 app.use(session({
@@ -22,9 +24,6 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false } // HTTPS를 사용할 때만 true로 설정
 }));
-
-// 정적 파일 제공
-app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB 연결 설정
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -123,6 +122,11 @@ app.get('/proxy/reverse-geocode', async (req, res) => {
     }
 });
 
+// 루트 경로 설정
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
+
 // 서버 시작
 app.listen(port, () => {
     console.log(`서버가 http://localhost:${port}에서 작동 중입니다.`);
@@ -170,11 +174,6 @@ app.get('/geocode-address', async (req, res) => {
         console.error('Geocoding API 호출 오류:', error);
         res.status(500).json({ error: 'Failed to fetch data from Naver Geocoding API' });
     }
-});
-
-// 루트 경로 설정
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // 환경 변수 검증
