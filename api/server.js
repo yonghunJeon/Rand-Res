@@ -184,7 +184,6 @@ app.get('/geocode-address', async (req, res) => {
 });
 
 // 네이버 지역검색 API를 사용하여 장소 검색
-// 네이버 지역검색 API를 사용하여 장소 검색
 app.get('/proxy/naver-search', async (req, res) => {
     const query = req.query.query;
     const url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=5&start=1&sort=random`;
