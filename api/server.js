@@ -140,25 +140,24 @@ app.listen(port, () => {
     console.log(`서버가 http://localhost:${port}에서 작동 중입니다.`);
 });
 
+// 카카오 검색 API를 사용하여 음식점 검색
 app.get('/search-restaurant', async (req, res) => {
-    const { lat, lng, roadAddress, jibunAddress } = req.query;
-    const query = `음식 ${roadAddress || jibunAddress}`;
-    const url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=5&start=1&sort=comment`;
+    const { lat, lng } = req.query;
+    const url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&x=${lng}&y=${lat}&radius=500&sort=distance`;
 
     try {
-        console.log(`Fetching restaurants for query: ${query}`);
+        console.log(`Fetching restaurants for coordinates: (${lat}, ${lng})`);
         const response = await fetch(url, {
             headers: {
-                'X-Naver-Client-Id': process.env.NAVER_SEARCH_CLIENT_ID,
-                'X-Naver-Client-Secret': process.env.NAVER_SEARCH_CLIENT_SECRET
+                'Authorization': `KakaoAK ${process.env.KAKAO_REST_API_KEY}`
             }
         });
         const data = await response.json();
-        console.log('Naver API Response:', data); // 응답 로그 추가
+        console.log('Kakao API Response:', data); // 응답 로그 추가
         res.json(data);
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).json({ error: 'Failed to fetch data from Naver API' });
+        res.status(500).json({ error: 'Failed to fetch data from Kakao API' });
     }
 });
 
