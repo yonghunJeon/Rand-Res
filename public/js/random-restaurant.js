@@ -122,9 +122,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         map: map,
                         icon: {
                             url: '/icon/restaurant-icon.png', // 음식점 아이콘 PNG 경로
-                            size: new naver.maps.Size(24, 24), // 아이콘 크기
+                            size: new naver.maps.Size(46, 59), // 아이콘 크기
                             origin: new naver.maps.Point(0, 0),
-                            anchor: new naver.maps.Point(12, 12)
+                            anchor: new naver.maps.Point(23, 59) // 앵커 포인트 (아이콘의 중심을 앵커로 설정)
                         }
                     });
                     map.setCenter(latlng);
