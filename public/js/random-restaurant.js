@@ -107,9 +107,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     const lastCategoryKeyword = categoryKeywords[categoryKeywords.length - 1];
                     restaurantInfo.innerHTML = `
                         <h2>${randomRestaurant.place_name}</h2>
-                        <p class="restaurant-category">${lastCategoryKeyword}</p>
-                        <p class="restaurant-address">${randomRestaurant.road_address_name || randomRestaurant.address_name}</p>
-                        <p class="restaurant-phone">${randomRestaurant.phone}</p>
+                        <p class="restaurant-category">[분류] ${lastCategoryKeyword}</p>
+                        <p class="restaurant-address">[주소] ${randomRestaurant.road_address_name || randomRestaurant.address_name}</p>
+                        <p class="restaurant-phone">[번호] ${randomRestaurant.phone}</p>
                         <a href="${randomRestaurant.place_url}" target="_blank" class="restaurant-link">자세히 보기</a>
                     `;
                     // 주소를 지도에 표시
