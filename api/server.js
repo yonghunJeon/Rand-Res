@@ -143,7 +143,7 @@ app.listen(port, () => {
 app.get('/search-restaurant', async (req, res) => {
     const { lat, lng, roadAddress, jibunAddress } = req.query;
     const query = `음식점 ${roadAddress || jibunAddress}`; // roadAddress 또는 jibunAddress를 query에 추가
-    const url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=5&start=1&sort=comment&coordinate=${lng},${lat}`; // place 제거
+    const url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=5&start=1&sort=comment`; // place 제거
 
     try {
         console.log(`Fetching restaurants for coordinates: ${lng}, ${lat}, query: ${query}`);
