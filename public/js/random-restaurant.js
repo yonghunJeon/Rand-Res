@@ -111,8 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
 
                     // mapx, mapy 값을 TM128 좌표계에서 WGS84 좌표계로 변환
-                    const tm128 = new naver.maps.Point(Number(randomRestaurant.mapx), Number(randomRestaurant.mapy));
-                    const latLng = naver.maps.TransCoord.fromTM128ToLatLng(tm128);
+                    const latLng = tm128ToWgs84(Number(randomRestaurant.mapx), Number(randomRestaurant.mapy));
 
                     // 기존 마커 제거
                     if (marker) {
@@ -121,12 +120,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     // 새로운 마커 추가
                     marker = new naver.maps.Marker({
-                        position: latLng,
+                        position: new naver.maps.LatLng(latLng.lat, latLng.lon),
                         map: map
                     });
 
                     // 지도 중심을 마커 위치로 이동
-                    map.setCenter(latLng);
+                    map.setCenter(new naver.maps.LatLng(latLng.lat, latLng.lon));
                 } else {
                     console.log('No restaurants found within 500 meters.'); // 추가 로그
                     restaurantInfo.innerHTML = '반경 500미터 내에 식당이 없습니다.';
@@ -171,4 +170,42 @@ function extractAddresses(results) {
         }
     });
     return { jibunAddress, roadAddress };
+}
+
+function tm128ToWgs84(tm128X, tm128Y) {
+    const RE = 6371.00877; // 지구 반경(km)
+    const GRID = 5.0; // 격자 간격(km)
+    const SLAT1 = 30.0; // 투영 위도1(degree)
+    const SLAT2 = 60.0; // 투영 위도2(degree)
+    const OLON = 126.0; // 기준점 경도(degree)
+    const OLAT = 38.0; // 기준점 위도(degree)
+    const XO = 43; // 기준점 X좌표(GRID)
+    const YO = 136; // 기준점 Y좌표(GRID)
+
+    const DEGRAD = Math.PI / 180.0;
+    const RADDEG = 180.0 / Math.PI;
+
+    const re = RE / GRID;
+    const slat1 = SLAT1 * DEGRAD;
+    const slat2 = SLAT2 * DEGRAD;
+    const olon = OLON * DEGRAD;
+    const olat = OLAT * DEGRAD;
+
+    const sn = Math.tan(Math.PI * 0.25 + slat2 * 0.5) / Math.tan(Math.PI * 0.25 + slat1 * 0.5);
+    const sf = Math.tan(Math.PI * 0.25 + slat1 * 0.5);
+    const ro = Math.tan(Math.PI * 0.25 + olat * 0.5);
+    const rs = Math.tan(Math.PI * 0.25 + olat * 0.5);
+
+    const theta = tm128X - XO;
+    const ra = re * sf / Math.pow(Math.tan(Math.PI * 0.25 + tm128Y * 0.5), sn);
+    const x = ra * Math.sin(theta * sn);
+    const y = ro - ra * Math.cos(theta * sn);
+
+    const lat = Math.asin(Math.sin(olat) * Math.cos(y / re) + Math.cos(olat) * Math.sin(y / re) * Math.cos(x / re));
+    const lon = olon + Math.atan2(Math.sin(x / re) * Math.sin(y / re), Math.cos(y / re) - Math.sin(olat) * Math.sin(lat));
+
+    return {
+        lat: lat * RADDEG,
+        lon: lon * RADDEG
+    };
 }
