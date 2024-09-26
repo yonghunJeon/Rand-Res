@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         position: latlng,
                         map: map,
                         icon: {
-                            url: 'icon/restaurant-icon.png', // 음식점 아이콘 PNG 경로
+                            url: '/icon/restaurant-icon.png', // 음식점 아이콘 PNG 경로
                             size: new naver.maps.Size(24, 24), // 아이콘 크기
                             origin: new naver.maps.Point(0, 0),
                             anchor: new naver.maps.Point(12, 12)
