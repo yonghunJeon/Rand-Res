@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     // 검색어 결합
                     //const searchQuery = `${randomRestaurant.place_name} ${lastCategoryKeyword} ${(randomRestaurant.road_address_name || randomRestaurant.address_name)}`;
-                    const searchQuery = `${randomRestaurant.place_name} ${(randomRestaurant.road_address_name || randomRestaurant.address_name)}`;
+                    const searchQuery = `${randomRestaurant.place_name}`;
 
                     // 네이버 지역검색 API 호출
                     fetchNaverPlaceInfo(searchQuery, (error, placeInfo) => {
