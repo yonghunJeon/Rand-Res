@@ -107,10 +107,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     const lastCategoryKeyword = categoryKeywords[categoryKeywords.length - 1];
                     restaurantInfo.innerHTML = `
                         <h2>${randomRestaurant.place_name}</h2>
-                        <p>${lastCategoryKeyword}</p>
-                        <p>${randomRestaurant.road_address_name || randomRestaurant.address_name}</p>
-                        <p>${randomRestaurant.phone}</p>
-                        <a href="${randomRestaurant.place_url}" target="_blank">자세히 보기</a>
+                        <p class="restaurant-category">${lastCategoryKeyword}</p>
+                        <p class="restaurant-address">${randomRestaurant.road_address_name || randomRestaurant.address_name}</p>
+                        <p class="restaurant-phone">${randomRestaurant.phone}</p>
+                        <a href="${randomRestaurant.place_url}" target="_blank" class="restaurant-link">자세히 보기</a>
                     `;
                     // 주소를 지도에 표시
                     const latlng = new naver.maps.LatLng(randomRestaurant.y, randomRestaurant.x);

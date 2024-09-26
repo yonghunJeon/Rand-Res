@@ -19,7 +19,7 @@ const applyOrientationClass = (container) => {
 };
 
 const applyResponsiveClass = () => {
-    const containerClasses = ['.login-container', '.container-background', '.signup-container', '.map-container'];
+    const containerClasses = ['.login-container', '.container-background', '.signup-container', '.map-container', '#restaurant-info'];
 
     containerClasses.forEach(containerClass => {
         const container = document.querySelector(containerClass);
