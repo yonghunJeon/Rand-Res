@@ -142,8 +142,8 @@ app.listen(port, () => {
 
 app.get('/search-restaurant', async (req, res) => {
     const { lat, lng, roadAddress, jibunAddress } = req.query;
-    const query = `${roadAddress || jibunAddress} 음식`;
-    const url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=5&start=1&sort=comment`;
+    const query = `음식 ${roadAddress || jibunAddress}`;
+    const url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=10&start=6&sort=comment`;
 
     try {
         console.log(`Fetching restaurants for query: ${query}`);
@@ -154,7 +154,7 @@ app.get('/search-restaurant', async (req, res) => {
             }
         });
         const data = await response.json();
-        console.log('Naver API Response:', data);
+        console.log('Naver API Response:', data); // 응답 로그 추가
         res.json(data);
     } catch (error) {
         console.error('Error:', error);
