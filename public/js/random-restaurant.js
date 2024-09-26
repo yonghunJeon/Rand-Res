@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`/search-restaurant?lat=${lat}&lng=${lng}&roadAddress=${encodeURIComponent(roadAddress)}&jibunAddress=${encodeURIComponent(jibunAddress)}`)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    return response.text().then(text => { throw new Error(`HTTP error! status: ${response.status}, response: ${text}`); });
                 }
                 return response.json();
             })
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
 
                     // mapx, mapy 값을 TM128 좌표계에서 WGS84 좌표계로 변환
-                    const tm128 = new naver.maps.Point(randomRestaurant.mapx, randomRestaurant.mapy);
+                    const tm128 = new naver.maps.Point(Number(randomRestaurant.mapx), Number(randomRestaurant.mapy));
                     const latLng = naver.maps.TransCoord.fromTM128ToLatLng(tm128);
 
                     // 기존 마커 제거
