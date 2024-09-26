@@ -103,8 +103,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Server Response:', data); // 서버 응답 로그 추가
                 if (data.documents && data.documents.length > 0) {
                     const randomRestaurant = data.documents[Math.floor(Math.random() * data.documents.length)]; // 랜덤으로 1개 선택
+                    const categoryKeywords = randomRestaurant.category_name.split('>').map(keyword => keyword.trim());
+                    const lastCategoryKeyword = categoryKeywords[categoryKeywords.length - 1];
                     restaurantInfo.innerHTML = `
                         <h2>${randomRestaurant.place_name}</h2>
+                        <p>${lastCategoryKeyword}</p>
                         <p>${randomRestaurant.road_address_name || randomRestaurant.address_name}</p>
                         <p>${randomRestaurant.phone}</p>
                         <a href="${randomRestaurant.place_url}" target="_blank">자세히 보기</a>
