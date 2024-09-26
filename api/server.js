@@ -142,11 +142,11 @@ app.listen(port, () => {
 
 app.get('/search-restaurant', async (req, res) => {
     const { lat, lng, roadAddress, jibunAddress } = req.query;
-    const query = `음식점 ${roadAddress || jibunAddress}`; // roadAddress 또는 jibunAddress를 query에 추가
-    const url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=5&start=1&sort=comment`; // place 제거
+    const query = `${roadAddress || jibunAddress} 음식점`;
+    const url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=5&start=1&sort=comment`;
 
     try {
-        console.log(`Fetching restaurants for coordinates: ${lng}, ${lat}, query: ${query}`);
+        console.log(`Fetching restaurants for query: ${query}`);
         const response = await fetch(url, {
             headers: {
                 'X-Naver-Client-Id': process.env.NAVER_SEARCH_CLIENT_ID,
@@ -154,7 +154,7 @@ app.get('/search-restaurant', async (req, res) => {
             }
         });
         const data = await response.json();
-        console.log('Naver API Response:', data); // 응답 로그 추가
+        console.log('Naver API Response:', data);
         res.json(data);
     } catch (error) {
         console.error('Error:', error);
