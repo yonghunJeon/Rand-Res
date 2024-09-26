@@ -183,27 +183,6 @@ app.get('/geocode-address', async (req, res) => {
     }
 });
 
-// 네이버 지역검색 API를 사용하여 장소 검색
-app.get('/proxy/naver-search', async (req, res) => {
-    const query = req.query.query;
-    const url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=5&start=1&sort=random`;
-
-    try {
-        const response = await fetch(url, {
-            headers: {
-                'X-Naver-Client-Id': process.env.NAVER_SEARCH_CLIENT_ID,
-                'X-Naver-Client-Secret': process.env.NAVER_SEARCH_CLIENT_SECRET
-            }
-        });
-        const data = await response.json();
-        console.log('Naver API Response:', data); // 응답 로그 추가
-        res.json(data);
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: 'Failed to fetch data from Naver API' });
-    }
-});
-
 // 환경 변수 검증
 if (!process.env.NAVER_MAP_CLIENT_ID || !process.env.NAVER_MAP_CLIENT_SECRET) {
     console.error('Naver Map API credentials are missing.');

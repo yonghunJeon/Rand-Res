@@ -105,44 +105,29 @@ document.addEventListener('DOMContentLoaded', function() {
                     const randomRestaurant = data.documents[Math.floor(Math.random() * data.documents.length)]; // 랜덤으로 1개 선택
                     const categoryKeywords = randomRestaurant.category_name.split('>').map(keyword => keyword.trim());
                     const lastCategoryKeyword = categoryKeywords[categoryKeywords.length - 1];
-
-                    // 검색어 결합
-                    //const searchQuery = `${randomRestaurant.place_name} ${lastCategoryKeyword} ${(randomRestaurant.road_address_name || randomRestaurant.address_name)}`;
-                    const searchQuery = `${randomRestaurant.place_name} ${randomRestaurant.phone}`;
-
-                    // 네이버 지역검색 API 호출
-                    fetchNaverPlaceInfo(searchQuery, (error, placeInfo) => {
-                        if (error) {
-                            console.error('Naver Place Info Error:', error);
+                    restaurantInfo.innerHTML = `
+                        <h2>${randomRestaurant.place_name}</h2>
+                        <p>${lastCategoryKeyword}</p>
+                        <p>${randomRestaurant.road_address_name || randomRestaurant.address_name}</p>
+                        <p>${randomRestaurant.phone}</p>
+                        <a href="${randomRestaurant.place_url}" target="_blank">자세히 보기</a>
+                    `;
+                    // 주소를 지도에 표시
+                    const latlng = new naver.maps.LatLng(randomRestaurant.y, randomRestaurant.x);
+                    if (marker) {
+                        marker.setMap(null);
+                    }
+                    marker = new naver.maps.Marker({
+                        position: latlng,
+                        map: map,
+                        icon: {
+                            url: '/icon/restaurant-icon.png', // 음식점 아이콘 PNG 경로
+                            size: new naver.maps.Size(46, 59), // 아이콘 크기
+                            origin: new naver.maps.Point(0, 0),
+                            anchor: new naver.maps.Point(23, 59) // 앵커 포인트 (아이콘의 중심을 앵커로 설정)
                         }
-
-                        const naverPlaceUrl = placeInfo.link ? placeInfo.link : '';
-
-                        restaurantInfo.innerHTML = `
-                            <h2>${randomRestaurant.place_name}</h2>
-                            <p>${lastCategoryKeyword}</p>
-                            <p>${randomRestaurant.road_address_name || randomRestaurant.address_name}</p>
-                            <p>${randomRestaurant.phone}</p>
-                            <a href="${naverPlaceUrl}" target="_blank">자세히 보기</a>
-                        `;
-
-                        // 주소를 지도에 표시
-                        const latlng = new naver.maps.LatLng(randomRestaurant.y, randomRestaurant.x);
-                        if (marker) {
-                            marker.setMap(null);
-                        }
-                        marker = new naver.maps.Marker({
-                            position: latlng,
-                            map: map,
-                            icon: {
-                                url: '/icon/restaurant-icon.png', // 음식점 아이콘 PNG 경로
-                                size: new naver.maps.Size(46, 59), // 아이콘 크기
-                                origin: new naver.maps.Point(0, 0),
-                                anchor: new naver.maps.Point(23, 59) // 앵커 포인트 (아이콘의 중심을 앵커로 설정)
-                            }
-                        });
-                        map.setCenter(latlng);
                     });
+                    map.setCenter(latlng);
                 } else {
                     console.log('No restaurants found within 500 meters.'); // 추가 로그
                     restaurantInfo.innerHTML = '반경 500미터 내에 식당이 없습니다.';
@@ -151,29 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => {
                 console.error('Error:', error);
                 restaurantInfo.innerHTML = '식당 정보를 가져오는 중 오류가 발생했습니다.';
-            });
-    }
-
-    function fetchNaverPlaceInfo(query, callback) {
-        fetch(`/proxy/naver-search?query=${encodeURIComponent(query)}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Naver Place Info Response:', data); // 응답 데이터 로그 추가
-                if (data.items && data.items.length > 0) {
-                    const placeInfo = data.items[0];
-                    callback(null, placeInfo);
-                } else {
-                    callback(new Error('No place info found'));
-                }
-            })
-            .catch(error => {
-                console.error('Fetch Naver Place Info Error:', error);
-                callback(error);
             });
     }
 
