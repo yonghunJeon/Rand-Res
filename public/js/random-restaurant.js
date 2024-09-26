@@ -114,11 +114,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     fetchNaverPlaceInfo(searchQuery, (error, placeInfo) => {
                         if (error) {
                             console.error('Naver Place Info Error:', error);
-                            restaurantInfo.innerHTML = '식당 정보를 가져오는 중 오류가 발생했습니다.';
-                            return;
                         }
 
-                        const naverPlaceUrl = placeInfo.link;
+                        const naverPlaceUrl = placeInfo.link ? placeInfo.link : '';
 
                         restaurantInfo.innerHTML = `
                             <h2>${randomRestaurant.place_name}</h2>
