@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         position: latlng,
                         map: map,
                         icon: {
-                            url: 'data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M288 256C288 238.3 273.7 224 256 224C238.3 224 224 238.3 224 256C224 273.7 238.3 288 256 288C273.7 288 288 273.7 288 256zM416 256C416 238.3 401.7 224 384 224C366.3 224 352 238.3 352 256C352 273.7 366.3 288 384 288C401.7 288 416 273.7 416 256zM128 224C110.3 224 96 238.3 96 256C96 273.7 110.3 288 128 288C145.7 288 160 273.7 160 256C160 238.3 145.7 224 128 224zM256 32C150.1 32 64 118.1 64 224C64 329.9 150.1 416 256 416C361.9 416 448 329.9 448 224C448 118.1 361.9 32 256 32zM256 384C167.6 384 96 312.4 96 224C96 135.6 167.6 64 256 64C344.4 64 416 135.6 416 224C416 312.4 344.4 384 256 384z"/></svg>',
+                            url: 'icon/restaurant-icon.png', // 음식점 아이콘 PNG 경로
                             size: new naver.maps.Size(24, 24), // 아이콘 크기
                             origin: new naver.maps.Point(0, 0),
                             anchor: new naver.maps.Point(12, 12)
