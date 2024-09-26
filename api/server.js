@@ -10,11 +10,9 @@ const fetch = require('node-fetch');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Body Parser 설정
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// 정적 파일 제공 및 캐시 제어 헤더 설정
 app.use(express.static(path.join(__dirname, '..', 'public'), {
     setHeaders: (res, path) => {
         if (path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.html')) {
@@ -25,20 +23,17 @@ app.use(express.static(path.join(__dirname, '..', 'public'), {
     }
 }));
 
-// 세션 설정
 app.use(session({
     secret: 'yourSecretKey',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // HTTPS를 사용할 때만 true로 설정
+    cookie: { secure: false }
 }));
 
-// MongoDB 연결 설정
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB 연결 성공'))
     .catch(err => console.log('MongoDB 연결 오류:', err));
 
-// 사용자 스키마 및 모델 설정
 const userSchema = new mongoose.Schema({
     accesskey: String,
     username: String,
@@ -48,7 +43,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-// 회원가입 라우트
 app.post('/register', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -66,7 +60,6 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// 로그인 라우트
 app.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({ username: req.body.username });
@@ -81,10 +74,8 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// 여러 줄로 된 ACCESS_KEYS를 배열로 변환
 const validKeys = process.env.ACCESS_KEYS.split(/[\n,]+/).map(key => key.trim());
 
-// 현장 인증 키 확인 라우트
 app.post('/verify-access-key', (req, res) => {
     const providedKey = req.body.accesskey;
 
@@ -95,7 +86,6 @@ app.post('/verify-access-key', (req, res) => {
     }
 });
 
-// 아이디 중복 확인 라우트
 app.post('/check-username', async (req, res) => {
     try {
         const user = await User.findOne({ username: req.body.username });
@@ -109,7 +99,6 @@ app.post('/check-username', async (req, res) => {
     }
 });
 
-// 프록시 서버 설정
 app.get('/proxy/reverse-geocode', async (req, res) => {
     const { lat, lng } = req.query;
     const clientId = process.env.NAVER_MAP_CLIENT_ID;
@@ -130,17 +119,14 @@ app.get('/proxy/reverse-geocode', async (req, res) => {
     }
 });
 
-// 루트 경로 설정
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-// 서버 시작
 app.listen(port, () => {
     console.log(`서버가 http://localhost:${port}에서 작동 중입니다.`);
 });
 
-// 카카오 검색 API를 사용하여 음식점 검색
 app.get('/search-restaurant', async (req, res) => {
     const { lat, lng } = req.query;
     const url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&x=${lng}&y=${lat}&radius=500&sort=distance`;
@@ -153,7 +139,7 @@ app.get('/search-restaurant', async (req, res) => {
             }
         });
         const data = await response.json();
-        console.log('Kakao API Response:', data); // 응답 로그 추가
+        console.log('Kakao API Response:', data);
         res.json(data);
     } catch (error) {
         console.error('Error:', error);
@@ -161,7 +147,6 @@ app.get('/search-restaurant', async (req, res) => {
     }
 });
 
-// geocode-address 라우트 추가
 app.get('/geocode-address', async (req, res) => {
     const address = req.query.address;
     const clientId = process.env.NAVER_MAP_CLIENT_ID;
@@ -182,19 +167,3 @@ app.get('/geocode-address', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch data from Naver Geocoding API' });
     }
 });
-
-// 환경 변수 검증
-if (!process.env.NAVER_MAP_CLIENT_ID || !process.env.NAVER_MAP_CLIENT_SECRET) {
-    console.error('Naver Map API credentials are missing.');
-    process.exit(1);
-}
-
-if (!process.env.NAVER_SEARCH_CLIENT_ID || !process.env.NAVER_SEARCH_CLIENT_SECRET) {
-    console.error('Naver Search API credentials are missing.');
-    process.exit(1);
-}
-
-if (!process.env.MONGODB_URI) {
-    console.error('MongoDB URI is missing.');
-    process.exit(1);
-}

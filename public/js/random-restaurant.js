@@ -1,10 +1,9 @@
-let jibunAddress; // 지번 주소 저장
-let roadAddress; // 도로명 주소 저장
-let map; // 지도 객체를 전역 변수로 이동
-let marker; // 전역 변수로 마커 선언
+let jibunAddress;
+let roadAddress;
+let map;
+let marker;
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Naver Maps API 로드 확인
     if (typeof naver === 'undefined' || !naver.maps) {
         console.error('Naver Maps API is not loaded.');
         return;
@@ -17,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 const currentPosition = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                console.log('Current Position:', currentPosition); // 위치 정보 로그 추가
+                console.log('Current Position:', currentPosition);
                 map = new naver.maps.Map('map', {
                     center: currentPosition,
                     zoom: 17,
@@ -44,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     fillOpacity: 0.5
                 });
 
-                // 현재 위치의 상세 주소를 불러옴
                 fetchReverseGeocode(position.coords.latitude, position.coords.longitude);
             }, function(error) {
                 console.error('Error occurred. Error code: ' + error.code);
@@ -78,8 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     const addresses = extractAddresses(data.results);
                     console.log('지번 주소:', addresses.jibunAddress);
                     console.log('도로명 주소:', addresses.roadAddress);
-                    jibunAddress = addresses.jibunAddress; // 지번 주소 저장
-                    roadAddress = addresses.roadAddress; // 도로명 주소 저장
+                    jibunAddress = addresses.jibunAddress;
+                    roadAddress = addresses.roadAddress;
                 } else {
                     console.error('상세 주소를 가져오는 데 실패했습니다.');
                 }
@@ -90,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function searchRestaurants(lat, lng) {
-        console.log(`Fetching restaurants at lat: ${lat}, lng: ${lng}`); // 서버 요청 로그 추가
+        console.log(`Fetching restaurants at lat: ${lat}, lng: ${lng}`);
 
         fetch(`/search-restaurant?lat=${lat}&lng=${lng}`)
             .then(response => {
@@ -100,9 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                console.log('Server Response:', data); // 서버 응답 로그 추가
+                console.log('Server Response:', data);
                 if (data.documents && data.documents.length > 0) {
-                    const randomRestaurant = data.documents[Math.floor(Math.random() * data.documents.length)]; // 랜덤으로 1개 선택
+                    const randomRestaurant = data.documents[Math.floor(Math.random() * data.documents.length)];
                     const categoryKeywords = randomRestaurant.category_name.split('>').map(keyword => keyword.trim());
                     const lastCategoryKeyword = categoryKeywords[categoryKeywords.length - 1];
                     restaurantInfo.innerHTML = `
@@ -112,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p class="restaurant-phone">[번호] ${randomRestaurant.phone}</p>
                         <a href="${randomRestaurant.place_url}" target="_blank" class="restaurant-link">자세히 보기</a>
                     `;
-                    // 주소를 지도에 표시
                     const latlng = new naver.maps.LatLng(randomRestaurant.y, randomRestaurant.x);
                     if (marker) {
                         marker.setMap(null);
@@ -121,15 +118,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         position: latlng,
                         map: map,
                         icon: {
-                            url: '/icon/restaurant-icon.png', // 음식점 아이콘 PNG 경로
-                            size: new naver.maps.Size(46, 59), // 아이콘 크기
+                            url: '/icon/restaurant-icon.png',
+                            size: new naver.maps.Size(46, 59),
                             origin: new naver.maps.Point(0, 0),
-                            anchor: new naver.maps.Point(23, 59) // 앵커 포인트 (아이콘의 중심을 앵커로 설정)
+                            anchor: new naver.maps.Point(23, 59)
                         }
                     });
                     map.setCenter(latlng);
                 } else {
-                    console.log('No restaurants found within 500 meters.'); // 추가 로그
+                    console.log('No restaurants found within 500 meters.');
                     restaurantInfo.innerHTML = '반경 500미터 내에 식당이 없습니다.';
                 }
             })
@@ -145,7 +142,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // currentPosition을 기반으로 검색
         navigator.geolocation.getCurrentPosition(function(position) {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;

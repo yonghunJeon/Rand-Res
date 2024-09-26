@@ -2,7 +2,6 @@ class HeaderComponent extends HTMLElement {
     connectedCallback() {
         const loggedInUsername = localStorage.getItem('loggedInUsername');
 
-        // loggedInUsername이 null이면 index.html로 리디렉션
         if (!loggedInUsername) {
             window.location.href = 'index.html';
             return;
@@ -34,13 +33,12 @@ class HeaderComponent extends HTMLElement {
             </nav>
         `;
 
-        // currentAddress가 설정될 때까지 기다림
         const checkAddressInterval = setInterval(() => {
             if (jibunAddress && roadAddress) {
                 this.updateLocation();
-                clearInterval(checkAddressInterval); // jibunAddress와 roadAddress가 설정되면 인터벌을 중지
+                clearInterval(checkAddressInterval);
             }
-        }, 1000); // 1초마다 확인
+        }, 1000);
     }
 
     updateLocation() {
