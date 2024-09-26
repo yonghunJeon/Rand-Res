@@ -106,8 +106,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     const categoryKeywords = randomRestaurant.category_name.split('>').map(keyword => keyword.trim());
                     const lastCategoryKeyword = categoryKeywords[categoryKeywords.length - 1];
 
+                    // 검색어 결합
+                    const searchQuery = `${randomRestaurant.place_name} ${lastCategoryKeyword} ${(randomRestaurant.road_address_name || randomRestaurant.address_name)}`;
+
                     // 네이버 지역검색 API 호출
-                    fetchNaverPlaceInfo(randomRestaurant.place_name, (error, placeInfo) => {
+                    fetchNaverPlaceInfo(searchQuery, (error, placeInfo) => {
                         if (error) {
                             console.error('Naver Place Info Error:', error);
                             restaurantInfo.innerHTML = '식당 정보를 가져오는 중 오류가 발생했습니다.';
