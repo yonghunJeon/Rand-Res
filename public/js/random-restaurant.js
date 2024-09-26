@@ -157,16 +157,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function fetchNaverPlaceInfo(query, callback) {
         fetch(`/proxy/naver-search?query=${encodeURIComponent(query)}`)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
-                if (data.rss && data.rss.channel && data.rss.channel.item && data.rss.channel.item.length > 0) {
-                    const placeInfo = data.rss.channel.item[0];
+                console.log('Naver Place Info Response:', data); // 응답 데이터 로그 추가
+                if (data.items && data.items.length > 0) {
+                    const placeInfo = data.items[0];
                     callback(null, placeInfo);
                 } else {
                     callback(new Error('No place info found'));
                 }
             })
             .catch(error => {
+                console.error('Fetch Naver Place Info Error:', error);
                 callback(error);
             });
     }
