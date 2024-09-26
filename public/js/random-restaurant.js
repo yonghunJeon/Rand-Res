@@ -109,26 +109,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p>${randomRestaurant.telephone}</p>
                         <a href="${randomRestaurant.link}" target="_blank">자세히 보기</a>
                     `;
-                    // 주소를 지도에 표시
-                    geocodeAddress(randomRestaurant.address); // 상세 주소로 지오코딩 요청
-                } else {
-                    console.log('No restaurants found within 500 meters.'); // 추가 로그
-                    restaurantInfo.innerHTML = '반경 500미터 내에 식당이 없습니다.';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                restaurantInfo.innerHTML = '식당 정보를 가져오는 중 오류가 발생했습니다.';
-            });
-    }
 
-    function geocodeAddress(address) {
-        fetch(`/geocode-address?address=${encodeURIComponent(address)}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'OK' && data.addresses.length > 0) {
-                    const result = data.addresses[0];
-                    const latlng = new naver.maps.LatLng(result.y, result.x);
+                    // mapx, mapy 값을 TM128 좌표계에서 WGS84 좌표계로 변환
+                    const tm128 = new naver.maps.Point(randomRestaurant.mapx, randomRestaurant.mapy);
+                    const latLng = naver.maps.TransCoord.fromTM128ToLatLng(tm128);
 
                     // 기존 마커 제거
                     if (marker) {
@@ -137,18 +121,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     // 새로운 마커 추가
                     marker = new naver.maps.Marker({
-                        position: latlng,
+                        position: latLng,
                         map: map
                     });
 
                     // 지도 중심을 마커 위치로 이동
-                    map.setCenter(latlng);
+                    map.setCenter(latLng);
                 } else {
-                    alert('주소를 찾을 수 없습니다.');
+                    console.log('No restaurants found within 500 meters.'); // 추가 로그
+                    restaurantInfo.innerHTML = '반경 500미터 내에 식당이 없습니다.';
                 }
             })
             .catch(error => {
-                console.error('Geocoding 오류:', error);
+                console.error('Error:', error);
+                restaurantInfo.innerHTML = '식당 정보를 가져오는 중 오류가 발생했습니다.';
             });
     }
 

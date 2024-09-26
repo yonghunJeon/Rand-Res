@@ -143,7 +143,7 @@ app.listen(port, () => {
 app.get('/search-restaurant', async (req, res) => {
     const { lat, lng, roadAddress, jibunAddress } = req.query;
     const query = `음식 ${roadAddress || jibunAddress}`;
-    const url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=10&start=6&sort=comment`;
+    const url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=5&start=1&sort=comment`;
 
     try {
         console.log(`Fetching restaurants for query: ${query}`);
