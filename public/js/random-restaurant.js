@@ -115,7 +115,11 @@ document.addEventListener('DOMContentLoaded', function() {
             <a href="${selectedRestaurant.place_url}" target="_blank" class="restaurant-link">자세히 보기</a>
         `;
 
-        // 모든 식당에 주황색 SVG 마커를 표시, 선택된 식당은 제외
+        // 모든 식당에 주황색 지도 마커 모양의 SVG 마커를 표시, 선택된 식당은 제외
+        const orangeMarkerSVG = `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFA500" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+            </svg>`;
         restaurants.forEach((restaurant, index) => {
             const latlng = new naver.maps.LatLng(restaurant.y, restaurant.x);
             if (index !== randomIndex) {
@@ -123,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     position: latlng,
                     map: map,
                     icon: {
-                        content: '<div style="width: 24px; height: 24px; background-color: #FFA500; border-radius: 50%;"></div>',
+                        content: `<div style="width: 24px; height: 24px;">${orangeMarkerSVG}</div>`,
                         anchor: new naver.maps.Point(12, 12)
                     }
                 });
