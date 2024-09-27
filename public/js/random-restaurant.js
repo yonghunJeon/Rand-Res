@@ -88,14 +88,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayRestaurants(restaurants) {
-        // 모든 식당에 주황색 마커를 표시
+        // SVG 마커 아이콘을 주황색으로 설정
+        const orangeMarkerSVG = `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="#FFA500"/>
+            </svg>`;
+
+        // 모든 식당에 주황색 SVG 마커를 표시
         restaurants.forEach(restaurant => {
             const latlng = new naver.maps.LatLng(restaurant.y, restaurant.x);
             new naver.maps.Marker({
                 position: latlng,
                 map: map,
                 icon: {
-                    content: '<div style="width: 24px; height: 24px; background-color: #FFA500; border-radius: 50%;"></div>',
+                    content: `<div style="width: 24px; height: 24px;">${orangeMarkerSVG}</div>`,
                     anchor: new naver.maps.Point(12, 12)
                 }
             });
