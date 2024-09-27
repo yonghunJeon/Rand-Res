@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayRestaurants(restaurants) {
+        // 모든 식당에 일반 마커를 표시
         restaurants.forEach(restaurant => {
             const latlng = new naver.maps.LatLng(restaurant.y, restaurant.x);
             new naver.maps.Marker({
@@ -101,6 +102,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+
+        // 랜덤하게 하나의 식당을 선택하여 특별한 마커로 표시
+        if (restaurants.length > 0) {
+            const randomIndex = Math.floor(Math.random() * restaurants.length);
+            const selectedRestaurant = restaurants[randomIndex];
+            const selectedLatLng = new naver.maps.LatLng(selectedRestaurant.y, selectedRestaurant.x);
+            new naver.maps.Marker({
+                position: selectedLatLng,
+                map: map,
+                icon: {
+                    url: '/icon/selected-restaurant-icon.png', // 특별한 마커 아이콘
+                    size: new naver.maps.Size(60, 75),
+                    origin: new naver.maps.Point(0, 0),
+                    anchor: new naver.maps.Point(30, 75)
+                }
+            });
+            console.log('Selected Restaurant:', selectedRestaurant.place_name);
+        }
     }
 
     function searchRestaurants(lat, lng) {
