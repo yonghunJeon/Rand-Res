@@ -2,6 +2,8 @@ let jibunAddress;
 let roadAddress;
 let map;
 let marker;
+let specialMarker = null; // 특별한 마커를 저장할 변수
+let markers = []; // 모든 마커를 저장할 배열
 
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof naver === 'undefined' || !naver.maps) {
@@ -87,7 +89,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    function clearMarkers() {
+        // 기존의 모든 마커 삭제
+        markers.forEach(marker => marker.setMap(null));
+        markers = [];
+        if (specialMarker) {
+            specialMarker.setMap(null);
+            specialMarker = null;
+        }
+    }
+
     function displayRestaurants(restaurants) {
+        clearMarkers(); // 기존 마커 삭제
+
         // SVG 마커 아이콘을 주황색으로 설정
         const orangeMarkerSVG = `
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,9 +114,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 모든 식당에 주황색 SVG 마커를 표시, 선택된 식당은 제외
         restaurants.forEach((restaurant, index) => {
+            const latlng = new naver.maps.LatLng(restaurant.y, restaurant.x);
             if (index !== randomIndex) {
-                const latlng = new naver.maps.LatLng(restaurant.y, restaurant.x);
-                new naver.maps.Marker({
+                const marker = new naver.maps.Marker({
                     position: latlng,
                     map: map,
                     icon: {
@@ -110,12 +124,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         anchor: new naver.maps.Point(12, 12)
                     }
                 });
+                markers.push(marker);
             }
         });
 
         // 선택된 식당에 특별한 마커로 표시
         const selectedLatLng = new naver.maps.LatLng(selectedRestaurant.y, selectedRestaurant.x);
-        new naver.maps.Marker({
+        specialMarker = new naver.maps.Marker({
             position: selectedLatLng,
             map: map,
             icon: {
