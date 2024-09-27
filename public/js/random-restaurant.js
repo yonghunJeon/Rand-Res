@@ -88,17 +88,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayRestaurants(restaurants) {
-        // 모든 식당에 일반 마커를 표시
+        // 모든 식당에 주황색 마커를 표시
         restaurants.forEach(restaurant => {
             const latlng = new naver.maps.LatLng(restaurant.y, restaurant.x);
             new naver.maps.Marker({
                 position: latlng,
                 map: map,
                 icon: {
-                    url: '/icon/restaurant-icon.png',
-                    size: new naver.maps.Size(46, 59),
-                    origin: new naver.maps.Point(0, 0),
-                    anchor: new naver.maps.Point(23, 59)
+                    content: '<div style="width: 24px; height: 24px; background-color: #FFA500; border-radius: 50%;"></div>',
+                    anchor: new naver.maps.Point(12, 12)
                 }
             });
         });
@@ -112,10 +110,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 position: selectedLatLng,
                 map: map,
                 icon: {
-                    url: '/icon/selected-restaurant-icon.png', // 특별한 마커 아이콘
-                    size: new naver.maps.Size(60, 75),
+                    url: '/icon/restaurant-icon.png', // 특별한 마커 아이콘
+                    size: new naver.maps.Size(46, 59),
                     origin: new naver.maps.Point(0, 0),
-                    anchor: new naver.maps.Point(30, 75)
+                    anchor: new naver.maps.Point(23, 59)
                 }
             });
             console.log('Selected Restaurant:', selectedRestaurant.place_name);
