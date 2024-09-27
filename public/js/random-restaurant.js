@@ -87,6 +87,22 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    function displayRestaurants(restaurants) {
+        restaurants.forEach(restaurant => {
+            const latlng = new naver.maps.LatLng(restaurant.y, restaurant.x);
+            new naver.maps.Marker({
+                position: latlng,
+                map: map,
+                icon: {
+                    url: '/icon/restaurant-icon.png',
+                    size: new naver.maps.Size(46, 59),
+                    origin: new naver.maps.Point(0, 0),
+                    anchor: new naver.maps.Point(23, 59)
+                }
+            });
+        });
+    }
+
     function searchRestaurants(lat, lng) {
         console.log(`Fetching restaurants at lat: ${lat}, lng: ${lng}`);
 
@@ -100,31 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 console.log('Server Response:', data);
                 if (data.documents && data.documents.length > 0) {
-                    const randomRestaurant = data.documents[Math.floor(Math.random() * data.documents.length)];
-                    const categoryKeywords = randomRestaurant.category_name.split('>').map(keyword => keyword.trim());
-                    const lastCategoryKeyword = categoryKeywords[categoryKeywords.length - 1];
-                    restaurantInfo.innerHTML = `
-                        <h2>${randomRestaurant.place_name}</h2>
-                        <p class="restaurant-category">[분류] ${lastCategoryKeyword}</p>
-                        <p class="restaurant-address">[주소] ${randomRestaurant.road_address_name || randomRestaurant.address_name}</p>
-                        <p class="restaurant-phone">[번호] ${randomRestaurant.phone}</p>
-                        <a href="${randomRestaurant.place_url}" target="_blank" class="restaurant-link">자세히 보기</a>
-                    `;
-                    const latlng = new naver.maps.LatLng(randomRestaurant.y, randomRestaurant.x);
-                    if (marker) {
-                        marker.setMap(null);
-                    }
-                    marker = new naver.maps.Marker({
-                        position: latlng,
-                        map: map,
-                        icon: {
-                            url: '/icon/restaurant-icon.png',
-                            size: new naver.maps.Size(46, 59),
-                            origin: new naver.maps.Point(0, 0),
-                            anchor: new naver.maps.Point(23, 59)
-                        }
-                    });
-                    map.setCenter(latlng);
+                    displayRestaurants(data.documents);
                 } else {
                     console.log('No restaurants found within 500 meters.');
                     restaurantInfo.innerHTML = '반경 500미터 내에 식당이 없습니다.';
