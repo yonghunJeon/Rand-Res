@@ -129,18 +129,23 @@ app.listen(port, () => {
 
 app.get('/search-restaurant', async (req, res) => {
     const { lat, lng } = req.query;
-    const url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&x=${lng}&y=${lat}&radius=500&sort=distance&size=45`;
+    const results = [];
+    const maxPages = 3; // 최대 3페이지까지 요청
 
     try {
-        console.log(`Fetching restaurants for coordinates: (${lat}, ${lng})`);
-        const response = await fetch(url, {
-            headers: {
-                'Authorization': `KakaoAK ${process.env.KAKAO_REST_API_KEY}`
-            }
-        });
-        const data = await response.json();
-        console.log('Kakao API Response:', data);
-        res.json(data);
+        for (let page = 1; page <= maxPages; page++) {
+            const url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&x=${lng}&y=${lat}&radius=500&sort=distance&size=15&page=${page}`;
+            console.log(`Fetching restaurants for coordinates: (${lat}, ${lng}), page: ${page}`);
+            const response = await fetch(url, {
+                headers: {
+                    'Authorization': `KakaoAK ${process.env.KAKAO_REST_API_KEY}`
+                }
+            });
+            const data = await response.json();
+            console.log('Kakao API Response:', data);
+            results.push(...data.documents);
+        }
+        res.json({ documents: results });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Failed to fetch data from Kakao API' });
