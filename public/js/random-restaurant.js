@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 new naver.maps.Circle({
                     map: map,
                     center: currentPosition,
-                    radius: 500,
+                    radius: 300,
                     strokeColor: '#5347AA',
                     strokeOpacity: 0.5,
                     strokeWeight: 2,
@@ -102,15 +102,18 @@ document.addEventListener('DOMContentLoaded', function() {
     function displayRestaurants(restaurants) {
         clearMarkers(); // 기존 마커 삭제
 
-        // SVG 마커 아이콘을 주황색으로 설정
-        const orangeMarkerSVG = `
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="#FFA500"/>
-            </svg>`;
-
         // 랜덤하게 하나의 식당을 선택
         const randomIndex = Math.floor(Math.random() * restaurants.length);
         const selectedRestaurant = restaurants[randomIndex];
+
+        // 선택된 식당 정보 업데이트
+        restaurantInfo.innerHTML = `
+            <h2>${selectedRestaurant.place_name}</h2>
+            <p class="restaurant-category">[분류] ${selectedRestaurant.category_name}</p>
+            <p class="restaurant-address">[주소] ${selectedRestaurant.road_address_name || selectedRestaurant.address_name}</p>
+            <p class="restaurant-phone">[번호] ${selectedRestaurant.phone}</p>
+            <a href="${selectedRestaurant.place_url}" target="_blank" class="restaurant-link">자세히 보기</a>
+        `;
 
         // 모든 식당에 주황색 SVG 마커를 표시, 선택된 식당은 제외
         restaurants.forEach((restaurant, index) => {
@@ -120,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     position: latlng,
                     map: map,
                     icon: {
-                        content: `<div style="width: 24px; height: 24px;">${orangeMarkerSVG}</div>`,
+                        content: '<div style="width: 24px; height: 24px; background-color: #FFA500; border-radius: 50%;"></div>',
                         anchor: new naver.maps.Point(12, 12)
                     }
                 });

@@ -134,7 +134,7 @@ app.get('/search-restaurant', async (req, res) => {
 
     try {
         for (let page = 1; page <= maxPages; page++) {
-            const url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&x=${lng}&y=${lat}&radius=500&sort=distance&size=15&page=${page}`;
+            const url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&x=${lng}&y=${lat}&radius=300&sort=distance&size=15&page=${page}`;
             console.log(`Fetching restaurants for coordinates: (${lat}, ${lng}), page: ${page}`);
             const response = await fetch(url, {
                 headers: {
