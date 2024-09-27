@@ -129,7 +129,7 @@ app.listen(port, () => {
 
 app.get('/search-restaurant', async (req, res) => {
     const { lat, lng } = req.query;
-    const url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&x=${lng}&y=${lat}&radius=500&sort=distance`;
+    const url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&x=${lng}&y=${lat}&radius=500&sort=distance&size=45`;
 
     try {
         console.log(`Fetching restaurants for coordinates: (${lat}, ${lng})`);
