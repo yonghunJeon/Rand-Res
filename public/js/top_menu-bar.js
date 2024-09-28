@@ -43,29 +43,15 @@ class HeaderComponent extends HTMLElement {
 
     updateLocation() {
         const locationElement = document.getElementById('location');
-        const isMobile = () => {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        };
-
-        if (isMobile()) {
-            locationElement.parentElement.innerHTML = `
-                <p style="text-align: left;">
-                    <i2 class="fas fa-map-marker-alt"></i2>
-                    <span>[지번] ${jibunAddress1}</span><br>
-                    <span>${jibunAddress2}</span><br>
-                    <span style="padding-left: 0.48em;">[도로명] ${roadAddress1}</span><br>
-                    <span>${roadAddress2}</span>
-                </p>
-            `;
-        } else {
-            locationElement.parentElement.innerHTML = `
-                <p style="text-align: left;">
-                    <i2 class="fas fa-map-marker-alt"></i2>
-                    <span>[지번] ${jibunAddress}</span><br>
-                    <span style="padding-left: 0.48em;">[도로명] ${roadAddress}</span>
-                </p>
-            `;
-        }
+        locationElement.parentElement.innerHTML = `
+            <p style="text-align: left;">
+                <i2 class="fas fa-map-marker-alt"></i2>
+                <span>[지번] ${jibunAddress1}</span><br>
+                <span>${jibunAddress2}</span><br>
+                <span style="padding-left: 0.48em;">[도로명] ${roadAddress1}</span><br>
+                <span>${roadAddress2}</span>
+            </p>
+        `;
     }
 }
 
