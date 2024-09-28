@@ -2,8 +2,8 @@ let jibunAddress;
 let roadAddress;
 let map;
 let marker;
-let specialMarker = null; // 특별한 마커를 저장할 변수
-let markers = []; // 모든 마커를 저장할 배열
+let specialMarker = null;
+let markers = [];
 
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof naver === 'undefined' || !naver.maps) {
@@ -112,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function clearMarkers() {
-        // 기존의 모든 마커 삭제
         markers.forEach(marker => marker.setMap(null));
         markers = [];
         if (specialMarker) {
@@ -122,13 +121,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayRestaurants(restaurants) {
-        clearMarkers(); // 기존 마커 삭제
+        clearMarkers();
 
-        // 랜덤하게 하나의 식당을 선택
         const randomIndex = Math.floor(Math.random() * restaurants.length);
         const selectedRestaurant = restaurants[randomIndex];
 
-        // 선택된 식당 정보 업데이트
         restaurantInfo.innerHTML = `
             <h2>${selectedRestaurant.place_name}</h2>
             <p class="restaurant-category">[분류] ${selectedRestaurant.category_name}</p>
@@ -137,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function() {
             <a href="${selectedRestaurant.place_url}" target="_blank" class="restaurant-link">자세히 보기</a>
         `;
 
-        // 모든 식당에 주황색 지도 마커 모양의 SVG 마커를 표시, 선택된 식당은 제외
         const orangeMarkerSVG = `
             <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFA500" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
@@ -157,13 +153,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // 선택된 식당에 특별한 마커로 표시
         const selectedLatLng = new naver.maps.LatLng(selectedRestaurant.y, selectedRestaurant.x);
         specialMarker = new naver.maps.Marker({
             position: selectedLatLng,
             map: map,
             icon: {
-                url: '/icon/restaurant-icon.png', // 특별한 마커 아이콘
+                url: '/icon/restaurant-icon.png',
                 size: new naver.maps.Size(46, 59),
                 origin: new naver.maps.Point(0, 0),
                 anchor: new naver.maps.Point(23, 59)
