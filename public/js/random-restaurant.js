@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     roadAddress = addresses.roadAddress;
 
                     if (localStorage.getItem('loggedInUsername') === '게스트') {
-                        saveGuestLocation(jibunAddress, roadAddress, lat, lng); // 좌표를 포함하여 저장
+                        saveGuestLocation(jibunAddress, roadAddress, lat, lng);
                     }
                 } else {
                     console.error('상세 주소를 가져오는 데 실패했습니다.');
