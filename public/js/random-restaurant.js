@@ -1,5 +1,9 @@
 let jibunAddress;
+let jibunAddress1;
+let jibunAddress2;
 let roadAddress;
+let roadAddress1;
+let roadAddress2;
 let map;
 let marker;
 let specialMarker = null;
