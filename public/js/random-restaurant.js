@@ -102,6 +102,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('도로명 주소:', addresses.roadAddress);
                     jibunAddress = addresses.jibunAddress;
                     roadAddress = addresses.roadAddress;
+                    jibunAddress1 = addresses.jibunAddress1;
+                    jibunAddress2 = addresses.jibunAddress2;
+                    roadAddress1 = addresses.roadAddress1;
+                    roadAddress2 = addresses.roadAddress2;
 
                     if (localStorage.getItem('loggedInUsername') === '게스트') {
                         saveGuestLocation(jibunAddress, roadAddress);
@@ -247,30 +251,30 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function extractAddresses(results) {
-    let jibunAddress = '';
-    let roadAddress = '';
-    let jibunAddress1 = '';
-    let jibunAddress2 = '';
-    let roadAddress1 = '';
-    let roadAddress2 = '';
+    let jibunAddressLocal = '';
+    let roadAddressLocal = '';
+    let jibunAddress1Local = '';
+    let jibunAddress2Local = '';
+    let roadAddress1Local = '';
+    let roadAddress2Local = '';
     
     results.forEach(result => {
         const { region, land } = result;
         const { area1, area2, area3 } = region;
         const { name, number1, number2 } = land;
-        jibunAddress1 = `${area1.name} ${area2.name}`;
-        jibunAddress2 = `${area3.name} ${number1 ? number1 : ''} ${number2 ? '-' + number2 : ''}`;
-        jibunAddress = `${jibunAddress1} ${jibunAddress2}`;
-        roadAddress1 = `${area1.name} ${area2.name}`;
-        roadAddress2 = `${name} ${number1 ? number1 : ''} ${number2 ? '-' + number2 : ''}`;
-        roadAddress = `${roadAddress1} ${roadAddress2}`;
+        jibunAddress1Local = `${area1.name} ${area2.name}`;
+        jibunAddress2Local = `${area3.name} ${number1 ? number1 : ''} ${number2 ? '-' + number2 : ''}`;
+        jibunAddressLocal = `${jibunAddress1Local} ${jibunAddress2Local}`;
+        roadAddress1Local = `${area1.name} ${area2.name}`;
+        roadAddress2Local = `${name} ${number1 ? number1 : ''} ${number2 ? '-' + number2 : ''}`;
+        roadAddressLocal = `${roadAddress1Local} ${roadAddress2Local}`;
         
         if (result.name === 'roadaddr') {
-            roadAddress = `${roadAddress1} ${roadAddress2}`;
+            roadAddressLocal = `${roadAddress1Local} ${roadAddress2Local}`;
         } else if (result.name === 'addr') {
-            jibunAddress = `${jibunAddress1} ${jibunAddress2}`;
+            jibunAddressLocal = `${jibunAddress1Local} ${jibunAddress2Local}`;
         }
     });
-    console.log('Extracted Addresses:', { jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 });
-    return { jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 };
+    console.log('Extracted Addresses:', { jibunAddressLocal, roadAddressLocal, jibunAddress1Local, jibunAddress2Local, roadAddress1Local, roadAddress2Local });
+    return { jibunAddressLocal, roadAddressLocal, jibunAddress1Local, jibunAddress2Local, roadAddress1Local, roadAddress2Local };
 }
