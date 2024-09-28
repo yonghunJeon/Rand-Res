@@ -43,12 +43,12 @@ class HeaderComponent extends HTMLElement {
     updateLocation(jibunAddress1, jibunAddress2, roadAddress1, roadAddress2) {
         const locationElement = document.getElementById('location');
         locationElement.parentElement.innerHTML = `
-            <p style="text-align: left;">
+            <p style="text-align: center;">
                 <i2 class="fas fa-map-marker-alt"></i2>
                 <span>[지번] ${jibunAddress1}</span><br>
-                <span style="padding-left: 5em;">${jibunAddress2}</span><br>
-                <span style="padding-left: 0.48em;">[도로명] ${roadAddress1}</span><br>
-                <span style="padding-left: 5em;">${roadAddress2}</span>
+                <span>${jibunAddress2}</span><br>
+                <span>[도로명] ${roadAddress1}</span><br>
+                <span>${roadAddress2}</span>
             </p>
         `;
     }
