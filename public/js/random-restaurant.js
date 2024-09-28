@@ -166,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 anchor: new naver.maps.Point(23, 59)
             }
         });
+        map.setCenter(selectedLatLng);
         console.log('Selected Restaurant:', selectedRestaurant.place_name);
     }
 
