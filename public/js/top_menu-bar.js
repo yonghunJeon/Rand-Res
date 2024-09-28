@@ -32,31 +32,23 @@ class HeaderComponent extends HTMLElement {
                 </ul>
             </nav>
         `;
-
-        const checkAddressInterval = setInterval(() => {
-            console.log('Checking addresses:', { jibunAddress, roadAddress, jibunAddress1, roadAddress1, jibunAddress2, roadAddress2 });
-            if (jibunAddress && roadAddress && jibunAddress1 && roadAddress1 && jibunAddress2 && roadAddress2) {
-                this.updateLocation();
-                clearInterval(checkAddressInterval);
-            }
-        }, 1000);
         
         document.addEventListener('addressExtracted', (event) => {
-            const { jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 } = event.detail;
-            console.log('Received addresses:', { jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 });
-            this.updateLocation(jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2);
+            const {jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 } = event.detail;
+            console.log('Received addresses:', { jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 });
+            this.updateLocation(jibunAddress1, jibunAddress2, roadAddress1, roadAddress2);
         });
     }
 
-    updateLocation(jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2) {
+    updateLocation(jibunAddress1, jibunAddress2, roadAddress1, roadAddress2) {
         const locationElement = document.getElementById('location');
         locationElement.parentElement.innerHTML = `
             <p style="text-align: left;">
                 <i2 class="fas fa-map-marker-alt"></i2>
                 <span>[지번] ${jibunAddress1}</span><br>
-                <span>${jibunAddress2}</span><br>
+                <span style="padding-left: 3em;">${jibunAddress2}</span><br>
                 <span style="padding-left: 0.48em;">[도로명] ${roadAddress1}</span><br>
-                <span>${roadAddress2}</span>
+                <span style="padding-left: 3em;">${roadAddress2}</span>
             </p>
         `;
     }
