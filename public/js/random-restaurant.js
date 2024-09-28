@@ -271,5 +271,6 @@ function extractAddresses(results) {
             jibunAddress = `${jibunAddress1} ${jibunAddress2}`;
         }
     });
+    console.log('Extracted Addresses:', { jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 });
     return { jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 };
 }
