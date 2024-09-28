@@ -46,9 +46,9 @@ class HeaderComponent extends HTMLElement {
             <p style="text-align: left;">
                 <i2 class="fas fa-map-marker-alt"></i2>
                 <span>[지번] ${jibunAddress1}</span><br>
-                <span style="padding-left: 3em;">${jibunAddress2}</span><br>
+                <span style="padding-left: 4em;">${jibunAddress2}</span><br>
                 <span style="padding-left: 0.48em;">[도로명] ${roadAddress1}</span><br>
-                <span style="padding-left: 3em;">${roadAddress2}</span>
+                <span style="padding-left: 4em;">${roadAddress2}</span>
             </p>
         `;
     }
