@@ -1,5 +1,3 @@
-import { isMobile } from './ui-navigator.js';
-
 class HeaderComponent extends HTMLElement {
     connectedCallback() {
         const loggedInUsername = localStorage.getItem('loggedInUsername');
@@ -45,6 +43,9 @@ class HeaderComponent extends HTMLElement {
 
     updateLocation() {
         const locationElement = document.getElementById('location');
+        const isMobile = () => {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        };
 
         if (isMobile()) {
             locationElement.parentElement.innerHTML = `
