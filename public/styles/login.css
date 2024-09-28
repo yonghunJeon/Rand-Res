@@ -16,7 +16,7 @@ body {
 }
 
 .login-container.mobile {
-    padding: 40% 0;
+    padding: 30% 0;
 }
 
 .login-container.mobile.landscape {
@@ -24,7 +24,7 @@ body {
 }
 
 .login-container.mobile.portrait {
-    padding: 40% 0;
+    padding: 30% 0;
 }
 
 .login-container.desktop {
@@ -74,7 +74,7 @@ body {
 
 .guest-access-btn {
     background: #00b7ff;
-    margin-top: 10px; /* ·Î±×ÀÎ ¹öÆ°°ú °£°Ý Ãß°¡ */
+    margin-top: 10px; /* ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ */
 }
 
 .guest-access-btn:hover {
