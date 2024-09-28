@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const recommendButton = document.getElementById('recommend-button');
     const restaurantInfo = document.getElementById('restaurant-info');
+    const refreshLocationButton = document.getElementById('refresh-location-button');
 
     function initMap() {
         if (navigator.geolocation) {
@@ -99,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     roadAddress = addresses.roadAddress;
 
                     if (localStorage.getItem('loggedInUsername') === '게스트') {
-                        saveGuestLocation(jibunAddress, roadAddress, lat, lng);  // 추가된 필드
+                        saveGuestLocation(jibunAddress, roadAddress);
                     }
                 } else {
                     console.error('상세 주소를 가져오는 데 실패했습니다.');
@@ -208,6 +209,35 @@ document.addEventListener('DOMContentLoaded', function() {
             const lng = position.coords.longitude;
             searchRestaurants(lat, lng);
         });
+    });
+
+    refreshLocationButton.addEventListener('click', function() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const currentPosition = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map.setCenter(currentPosition);
+                fetchReverseGeocode(position.coords.latitude, position.coords.longitude);
+            }, function(error) {
+                console.error('Error occurred. Error code: ' + error.code);
+                // Handle error case
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        alert("User denied the request for Geolocation.");
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        alert("Location information is unavailable.");
+                        break;
+                    case error.TIMEOUT:
+                        alert("The request to get user location timed out.");
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        alert("An unknown error occurred.");
+                        break;
+                }
+            });
+        } else {
+            alert('Geolocation을 지원하지 않는 브라우저입니다.');
+        }
     });
 
     initMap();

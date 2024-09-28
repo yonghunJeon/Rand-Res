@@ -26,7 +26,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-#recommend-button {
+#recommend-button, #refresh-location-button {
     padding: 10px 20px;
     font-size: 16px;
     background-color: #00b7ff;
@@ -38,7 +38,7 @@ h1 {
     text-align: center;
 }
 
-#recommend-button:hover {
+#recommend-button:hover, #refresh-location-button:hover {
     background-color: #0095cf;
 }
 
@@ -83,13 +83,13 @@ h1 {
 .restaurant-address,
 .restaurant-phone,
 .restaurant-link {
-    text-align: left; /* ÁÂÃø Á¤·Ä */
-    margin: 0.5em 0; /* ±âº» ÁÙ °£°Ý */
+    text-align: left; /* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
+    margin: 0.5em 0; /* ï¿½âº» ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 }
 
 #restaurant-info.mobile .restaurant-category,
 #restaurant-info.mobile .restaurant-address,
 #restaurant-info.mobile .restaurant-phone,
 #restaurant-info.mobile .restaurant-link {
-    margin: 0.25em 0; /* ¸ð¹ÙÀÏ¿¡¼­ ÁÙ °£°Ý Àý¹ÝÀ¸·Î ÁÙÀÓ */
+    margin: 0.25em 0; /* ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 }
