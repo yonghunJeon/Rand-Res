@@ -245,17 +245,27 @@ document.addEventListener('DOMContentLoaded', function() {
 function extractAddresses(results) {
     let jibunAddress = '';
     let roadAddress = '';
+    let jibunAddress1 = '';
+    let jibunAddress2 = '';
+    let roadAddress1 = '';
+    let roadAddress2 = '';
+    
     results.forEach(result => {
         const { region, land } = result;
         const { area1, area2, area3 } = region;
         const { name, number1, number2 } = land;
-        const jibunFullAddress = `${area1.name} ${area2.name} ${area3.name} ${number1 ? number1 : ''}${number2 ? '-' + number2 : ''}`;
-        const roadFullAddress = `${area1.name} ${area2.name} ${name} ${number1 ? number1 : ''}${number2 ? '-' + number2 : ''}`;
+        jibunAddress1 = `${area1.name} ${area2.name}`;
+        jibunAddress2 = `${area3.name} ${number1 ? number1 : ''} ${number2 ? '-' + number2 : ''}`;
+        jibunAddress = `${jibunAddress1} ${jibunAddress2}`;
+        roadAddress1 = `${area1.name} ${area2.name}`;
+        roadAddress2 = `${name} ${number1 ? number1 : ''} ${number2 ? '-' + number2 : ''}`;
+        roadAddress = `${roadAddress1} ${roadAddress2}`;
+        
         if (result.name === 'roadaddr') {
-            roadAddress = roadFullAddress;
+            roadAddress = `${roadAddress1} ${roadAddress2}`;
         } else if (result.name === 'addr') {
-            jibunAddress = jibunFullAddress;
+            jibunAddress = `${jibunAddress1} ${jibunAddress2}`;
         }
     });
-    return { jibunAddress, roadAddress };
+    return { jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 };
 }
