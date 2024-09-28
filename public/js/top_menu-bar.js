@@ -1,3 +1,5 @@
+import { isMobile } from './ui-navigator.js';
+
 class HeaderComponent extends HTMLElement {
     connectedCallback() {
         const loggedInUsername = localStorage.getItem('loggedInUsername');
@@ -43,9 +45,8 @@ class HeaderComponent extends HTMLElement {
 
     updateLocation() {
         const locationElement = document.getElementById('location');
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-        if (isMobile) {
+        if (isMobile()) {
             locationElement.parentElement.innerHTML = `
                 <p style="text-align: left;">
                     <i2 class="fas fa-map-marker-alt"></i2>
