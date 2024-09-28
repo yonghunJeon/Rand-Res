@@ -34,7 +34,7 @@ class HeaderComponent extends HTMLElement {
         `;
 
         const checkAddressInterval = setInterval(() => {
-            if (jibunAddress && roadAddress) {
+            if (jibunAddress && roadAddress && jibunAddress1 && roadAddress1 && jibunAddress2 && roadAddress2) {
                 this.updateLocation();
                 clearInterval(checkAddressInterval);
             }
