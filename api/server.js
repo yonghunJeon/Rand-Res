@@ -181,18 +181,17 @@ app.get('/geocode-address', async (req, res) => {
     }
 });
 
-app.post('/guest-login', async (req, res) => {
+app.post('/save-guest-location', async (req, res) => {
     try {
-        const { jibunAddress, roadAddress } = req.body;
         const newGuest = new Guest({
-            guest: 'guest',
-            jibunAddress,
-            roadAddress
+            guest: req.body.guest,
+            jibunAddress: req.body.jibunAddress,
+            roadAddress: req.body.roadAddress
         });
 
         await newGuest.save();
-        res.json({ status: 'success', message: '게스트 로그인 성공!' });
+        res.json({ status: 'success', message: '위치 저장 성공!' });
     } catch (err) {
-        res.status(400).json({ status: 'fail', message: '게스트 로그인 실패: ' + err });
+        res.status(400).json({ status: 'error', message: '위치 저장 실패: ' + err });
     }
 });

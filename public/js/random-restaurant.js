@@ -69,6 +69,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function saveGuestLocation(jibunAddress, roadAddress) {
+        fetch('/save-guest-location', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                guest: '게스트',
+                jibunAddress: jibunAddress,
+                roadAddress: roadAddress
+            })
+        })
+        .then(response => response.json())
+    }
+
     function fetchReverseGeocode(lat, lng) {
         fetch(`/proxy/reverse-geocode?lat=${lat}&lng=${lng}`)
             .then(response => response.json())
@@ -80,6 +95,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('도로명 주소:', addresses.roadAddress);
                     jibunAddress = addresses.jibunAddress;
                     roadAddress = addresses.roadAddress;
+
+                    if (localStorage.getItem('loggedInUsername') === '게스트') {
+                        saveGuestLocation(jibunAddress, roadAddress);
+                    }
                 } else {
                     console.error('상세 주소를 가져오는 데 실패했습니다.');
                 }
@@ -175,27 +194,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    function guestLogin(jibunAddress, roadAddress) {
-        fetch('/guest-login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ jibunAddress, roadAddress })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                console.log('게스트 로그인 성공:', data.message);
-            } else {
-                console.error('게스트 로그인 실패:', data.message);
-            }
-        })
-        .catch(error => {
-            console.error('게스트 로그인 중 오류 발생:', error);
-        });
-    }
-
     recommendButton.addEventListener('click', function() {
         if (!jibunAddress && !roadAddress) {
             alert('현재 위치를 확인할 수 없습니다.');
@@ -207,15 +205,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const lng = position.coords.longitude;
             searchRestaurants(lat, lng);
         });
-    });
-
-    document.getElementById('guest-access-btn').addEventListener('click', function() {
-        if (!jibunAddress && !roadAddress) {
-            alert('현재 위치를 확인할 수 없습니다.');
-            return;
-        }
-
-        guestLogin(jibunAddress, roadAddress);
     });
 
     initMap();
