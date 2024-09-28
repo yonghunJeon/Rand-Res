@@ -50,7 +50,7 @@ h1 {
 
 .map-container.mobile #restaurant-info {
     margin-top: 0px;
-    margin-bottom: 50%;
+    /*margin-bottom: 50%;*/
 }
 
 #error-message {
