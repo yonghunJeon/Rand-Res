@@ -43,6 +43,14 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+const guestSchema = new mongoose.Schema({
+    guest: String,
+    jibunAddress: String,
+    roadAddress: String
+});
+
+const Guest = mongoose.model('Guest', guestSchema);
+
 app.post('/register', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -170,5 +178,21 @@ app.get('/geocode-address', async (req, res) => {
     } catch (error) {
         console.error('Geocoding API 호출 오류:', error);
         res.status(500).json({ error: 'Failed to fetch data from Naver Geocoding API' });
+    }
+});
+
+app.post('/guest-login', async (req, res) => {
+    try {
+        const { jibunAddress, roadAddress } = req.body;
+        const newGuest = new Guest({
+            guest: 'guest',
+            jibunAddress,
+            roadAddress
+        });
+
+        await newGuest.save();
+        res.json({ status: 'success', message: '게스트 로그인 성공!' });
+    } catch (err) {
+        res.status(400).json({ status: 'fail', message: '게스트 로그인 실패: ' + err });
     }
 });

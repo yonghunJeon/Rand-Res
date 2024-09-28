@@ -147,10 +147,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 anchor: new naver.maps.Point(23, 59)
             }
         });
-
-        // 선택된 식당 위치를 지도의 중심으로 설정
-        map.setCenter(selectedLatLng);
-
         console.log('Selected Restaurant:', selectedRestaurant.place_name);
     }
 
@@ -179,6 +175,27 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    function guestLogin(jibunAddress, roadAddress) {
+        fetch('/guest-login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ jibunAddress, roadAddress })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                console.log('게스트 로그인 성공:', data.message);
+            } else {
+                console.error('게스트 로그인 실패:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('게스트 로그인 중 오류 발생:', error);
+        });
+    }
+
     recommendButton.addEventListener('click', function() {
         if (!jibunAddress && !roadAddress) {
             alert('현재 위치를 확인할 수 없습니다.');
@@ -190,6 +207,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const lng = position.coords.longitude;
             searchRestaurants(lat, lng);
         });
+    });
+
+    document.getElementById('guest-access-btn').addEventListener('click', function() {
+        if (!jibunAddress && !roadAddress) {
+            alert('현재 위치를 확인할 수 없습니다.');
+            return;
+        }
+
+        guestLogin(jibunAddress, roadAddress);
     });
 
     initMap();
