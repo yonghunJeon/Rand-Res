@@ -147,6 +147,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 anchor: new naver.maps.Point(23, 59)
             }
         });
+
+        // 선택된 식당 위치를 지도의 중심으로 설정
+        map.setCenter(selectedLatLng);
+
         console.log('Selected Restaurant:', selectedRestaurant.place_name);
     }
 
