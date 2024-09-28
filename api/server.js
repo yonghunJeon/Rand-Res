@@ -46,7 +46,9 @@ const User = mongoose.model('User', userSchema);
 const guestSchema = new mongoose.Schema({
     guest: String,
     jibunAddress: String,
-    roadAddress: String
+    roadAddress: String,
+    latitude: Number,
+    longitude: Number
 });
 
 const Guest = mongoose.model('Guest', guestSchema);
@@ -186,7 +188,9 @@ app.post('/save-guest-location', async (req, res) => {
         const newGuest = new Guest({
             guest: req.body.guest,
             jibunAddress: req.body.jibunAddress,
-            roadAddress: req.body.roadAddress
+            roadAddress: req.body.roadAddress,
+            latitude: req.body.latitude,
+            longitude: req.body.longitude
         });
 
         await newGuest.save();

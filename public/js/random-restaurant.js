@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function saveGuestLocation(jibunAddress, roadAddress) {
+    function saveGuestLocation(jibunAddress, roadAddress, latitude, longitude) {
         fetch('/save-guest-location', {
             method: 'POST',
             headers: {
@@ -78,7 +78,9 @@ document.addEventListener('DOMContentLoaded', function() {
             body: JSON.stringify({
                 guest: '게스트',
                 jibunAddress: jibunAddress,
-                roadAddress: roadAddress
+                roadAddress: roadAddress,
+                latitude: latitude,
+                longitude: longitude
             })
         })
         .then(response => response.json())
@@ -97,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     roadAddress = addresses.roadAddress;
 
                     if (localStorage.getItem('loggedInUsername') === '게스트') {
-                        saveGuestLocation(jibunAddress, roadAddress);
+                        saveGuestLocation(jibunAddress, roadAddress, lat, lng);  // 추가된 필드
                     }
                 } else {
                     console.error('상세 주소를 가져오는 데 실패했습니다.');
