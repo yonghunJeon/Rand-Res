@@ -40,9 +40,15 @@ class HeaderComponent extends HTMLElement {
                 clearInterval(checkAddressInterval);
             }
         }, 1000);
+        
+        document.addEventListener('addressExtracted', (event) => {
+            const { jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 } = event.detail;
+            console.log('Received addresses:', { jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 });
+            this.updateLocation(jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2);
+        });
     }
 
-    updateLocation() {
+    updateLocation(jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2) {
         const locationElement = document.getElementById('location');
         locationElement.parentElement.innerHTML = `
             <p style="text-align: left;">
