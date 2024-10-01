@@ -9,6 +9,7 @@ const path = require('path');
 const fetch = require('node-fetch');
 const app = express();
 const port = process.env.PORT || 3000;
+const schedule = require('node-schedule');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,7 +39,10 @@ const userSchema = new mongoose.Schema({
     accesskey: String,
     username: String,
     password: String,
-    email: String
+    email: String,
+    role: { type: String, default: '회원' }, // 회원, 회원(인증), 게스트
+    recommendationCount: { type: Number, default: 0 },
+    lastRecommendationDate: { type: Date, default: new Date() }
 });
 
 const User = mongoose.model('User', userSchema);
@@ -48,10 +52,23 @@ const guestSchema = new mongoose.Schema({
     jibunAddress: String,
     roadAddress: String,
     latitude: Number,
-    longitude: Number
+    longitude: Number,
+    recommendationCount: { type: Number, default: 0 },
+    lastRecommendationDate: { type: Date, default: new Date() }
 });
 
 const Guest = mongoose.model('Guest', guestSchema);
+
+// 매일 00시에 추천 횟수 초기화
+schedule.scheduleJob('0 0 * * *', async () => {
+    try {
+        await User.updateMany({}, { recommendationCount: 0, lastRecommendationDate: new Date() });
+        await Guest.updateMany({}, { recommendationCount: 0, lastRecommendationDate: new Date() });
+        console.log('추천 횟수 초기화 완료');
+    } catch (err) {
+        console.error('추천 횟수 초기화 오류:', err);
+    }
+});
 
 app.post('/register', async (req, res) => {
     try {
@@ -197,5 +214,40 @@ app.post('/save-guest-location', async (req, res) => {
         res.json({ status: 'success', message: '위치 저장 성공!' });
     } catch (err) {
         res.status(400).json({ status: 'error', message: '위치 저장 실패: ' + err });
+    }
+});
+
+app.post('/recommend-restaurant', async (req, res) => {
+    try {
+        const { username } = req.body;
+        let user = await User.findOne({ username });
+        let maxRecommendations = 0;
+
+        if (user) {
+            if (user.accesskey === 'allowed') {
+                maxRecommendations = Infinity;
+            } else {
+                maxRecommendations = 150;
+            }
+        } else {
+            user = await Guest.findOne({ guest: username });
+            if (user) {
+                maxRecommendations = 50;
+            } else {
+                return res.status(400).json({ status: 'error', message: '사용자를 찾을 수 없습니다.' });
+            }
+        }
+
+        if (user.recommendationCount >= maxRecommendations) {
+            return res.status(400).json({ status: 'error', message: '추천 횟수 초과' });
+        }
+
+        user.recommendationCount += 1;
+        user.lastRecommendationDate = new Date();
+        await user.save();
+
+        res.json({ status: 'success', message: '추천 성공', recommendationCount: user.recommendationCount });
+    } catch (err) {
+        res.status(400).json({ status: 'error', message: '추천 실패: ' + err });
     }
 });
