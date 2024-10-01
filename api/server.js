@@ -39,10 +39,7 @@ const userSchema = new mongoose.Schema({
     accesskey: String,
     username: String,
     password: String,
-    email: String,
-    role: { type: String, default: '회원' }, // 회원, 회원(인증), 게스트
-    recommendationCount: { type: Number, default: 0 },
-    lastRecommendationDate: { type: Date, default: new Date() }
+    email: String
 });
 
 const User = mongoose.model('User', userSchema);
@@ -52,23 +49,10 @@ const guestSchema = new mongoose.Schema({
     jibunAddress: String,
     roadAddress: String,
     latitude: Number,
-    longitude: Number,
-    recommendationCount: { type: Number, default: 0 },
-    lastRecommendationDate: { type: Date, default: new Date() }
+    longitude: Number
 });
 
 const Guest = mongoose.model('Guest', guestSchema);
-
-// 매일 00시에 추천 횟수 초기화
-schedule.scheduleJob('0 0 * * *', async () => {
-    try {
-        await User.updateMany({}, { recommendationCount: 0, lastRecommendationDate: new Date() });
-        await Guest.updateMany({}, { recommendationCount: 0, lastRecommendationDate: new Date() });
-        console.log('추천 횟수 초기화 완료');
-    } catch (err) {
-        console.error('추천 횟수 초기화 오류:', err);
-    }
-});
 
 app.post('/register', async (req, res) => {
     try {

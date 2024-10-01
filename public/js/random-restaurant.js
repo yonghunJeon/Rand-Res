@@ -202,48 +202,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     recommendButton.addEventListener('click', function() {
-        const username = localStorage.getItem('loggedInUsername');
+        if (!jibunAddress && !roadAddress) {
+            alert('현재 위치를 확인할 수 없습니다.');
+            return;
+        }
 
-        fetch('/recommend-restaurant', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                Swal.fire({
-                    icon: 'success',
-                    title: '추천 성공',
-                    text: `추천 횟수: ${data.recommendationCount}`,
-                    confirmButtonText: '확인',
-                    confirmButtonColor: '#00b7ff',
-                    heightAuto: false
-                });
-                // 추천 로직 추가
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: '추천 실패',
-                    text: data.message,
-                    confirmButtonText: '확인',
-                    confirmButtonColor: '#00b7ff',
-                    heightAuto: false
-                });
-            }
-        })
-        .catch(error => {
-            console.error('추천 오류:', error);
-            Swal.fire({
-                icon: 'error',
-                title: '오류',
-                text: '추천 중 문제가 발생했습니다.',
-                confirmButtonText: '확인',
-                confirmButtonColor: '#00b7ff',
-                heightAuto: false
-            });
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            searchRestaurants(lat, lng);
         });
     });
 
