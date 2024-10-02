@@ -122,14 +122,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateCount(username, count) {
         const endpoint = username === '게스트' ? '/update-guest-count' : '/update-user-count';
-        const currentTimeKST = moment().tz('Asia/Seoul').format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-        console.log('Current Time in KST (Client):', currentTimeKST);
+        const currentTimeKST = moment().tz('Asia/Seoul');
+        const timeData = {
+            year: currentTimeKST.year(),
+            month: currentTimeKST.month() + 1,
+            day: currentTimeKST.date(),
+            hour: currentTimeKST.hour(),
+            minute: currentTimeKST.minute(),
+            second: currentTimeKST.second()
+        };
+        console.log('Current Time in KST (Client):', timeData);
         fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username, count, time: currentTimeKST })
+            body: JSON.stringify({ username, count, time: timeData })
         })
         .then(response => {
             if (!response.ok) {
