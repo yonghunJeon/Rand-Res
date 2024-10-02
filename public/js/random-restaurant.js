@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateCount(username, count) {
         const endpoint = username === '게스트' ? '/update-guest-count' : '/update-user-count';
         const currentTimeKST = moment().tz('Asia/Seoul').format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        console.log('Current Time in KST (Client):', currentTimeKST);
         fetch(endpoint, {
             method: 'POST',
             headers: {
