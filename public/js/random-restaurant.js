@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const recommendButton = document.getElementById('recommend-button');
     const restaurantInfo = document.getElementById('restaurant-info');
     const refreshLocationButton = document.getElementById('refresh-location-button');
-    let localcount = 0;
 
     function initMap() {
         if (navigator.geolocation) {

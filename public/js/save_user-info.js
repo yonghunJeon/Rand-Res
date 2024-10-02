@@ -71,19 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('guest-access-btn').addEventListener('click', function() {
-        fetch('/guest-login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            localStorage.setItem('loggedInUsername', '게스트');
-            window.location.href = 'map_page.html';
-        })
-        .catch(error => {
-            console.error('게스트 로그인 오류:', error);
-        });
+        localStorage.setItem('loggedInUsername', '게스트');
+        window.location.href = 'map_page.html';
     });
 });
