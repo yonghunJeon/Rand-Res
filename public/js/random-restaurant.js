@@ -123,21 +123,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateCount(username, count) {
         const endpoint = username === '게스트' ? '/update-guest-count' : '/update-user-count';
         const currentTimeKST = moment().tz('Asia/Seoul');
-        const timeData = {
-            year: currentTimeKST.year(),
-            month: currentTimeKST.month() + 1,
-            day: currentTimeKST.date(),
-            hour: currentTimeKST.hour(),
-            minute: currentTimeKST.minute(),
-            second: currentTimeKST.second()
-        };
-        console.log('Current Time in KST (Client):', timeData);
+        const date = currentTimeKST.format('YYYY-MM-DD');
+        const time = currentTimeKST.format('HH:mm:ss');
+        console.log('Current Date in KST (Client):', date);
+        console.log('Current Time in KST (Client):', time);
         fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username, count, time: timeData })
+            body: JSON.stringify({ username, count, date, time })
         })
         .then(response => {
             if (!response.ok) {

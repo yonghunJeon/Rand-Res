@@ -42,14 +42,8 @@ const userSchema = new mongoose.Schema({
     password: String,
     email: String,
     count: { type: Number, default: 0 },
-    time: {
-        year: Number,
-        month: Number,
-        day: Number,
-        hour: Number,
-        minute: Number,
-        second: Number
-    }
+    date: String,
+    time: String
 });
 
 const User = mongoose.model('User', userSchema);
@@ -61,14 +55,8 @@ const guestSchema = new mongoose.Schema({
     latitude: Number,
     longitude: Number,
     count: { type: Number, default: 0 },
-    time: {
-        year: Number,
-        month: Number,
-        day: Number,
-        hour: Number,
-        minute: Number,
-        second: Number
-    }
+    date: String,
+    time: String
 });
 
 const Guest = mongoose.model('Guest', guestSchema);
@@ -270,10 +258,10 @@ app.post('/get-guest-count', async (req, res) => {
 app.post('/update-user-count', async (req, res) => {
     try {
         console.log('Received request to update user count:', req.body);
-        const timeData = req.body.time;
+        const { date, time } = req.body;
         const user = await User.findOneAndUpdate(
             { username: req.body.username },
-            { $set: { count: req.body.count, time: timeData } },
+            { $set: { count: req.body.count, date, time } },
             { new: true }
         );
         if (user) {
@@ -290,10 +278,10 @@ app.post('/update-user-count', async (req, res) => {
 app.post('/update-guest-count', async (req, res) => {
     try {
         console.log('Received request to update guest count:', req.body);
-        const timeData = req.body.time;
+        const { date, time } = req.body;
         const guest = await Guest.findOneAndUpdate(
             { guest: '게스트' },
-            { $set: { count: req.body.count, time: timeData } },
+            { $set: { count: req.body.count, date, time } },
             { new: true }
         );
         if (guest) {
