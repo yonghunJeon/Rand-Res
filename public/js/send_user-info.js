@@ -1,3 +1,5 @@
+let isVerified = false;
+
 document.getElementById('sign-up-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
