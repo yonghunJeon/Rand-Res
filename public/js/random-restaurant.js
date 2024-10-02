@@ -9,6 +9,7 @@ let marker;
 let specialMarker = null;
 let markers = [];
 let locationSaved = false;
+let localcount = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof naver === 'undefined' || !naver.maps) {
@@ -205,16 +206,49 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     recommendButton.addEventListener('click', function() {
-        if (!jibunAddress && !roadAddress) {
-            alert('현재 위치를 확인할 수 없습니다.');
-            return;
+        const loggedInUsername = localStorage.getItem('loggedInUsername');
+        if (loggedInUsername !== '게스트') {
+            fetch('/get-user-count', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: loggedInUsername })
+            })
+            .then(response => response.json())
+            .then(data => {
+                localcount = data.count;
+                localcount -= 1;
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    searchRestaurants(lat, lng);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching user count:', error);
+            });
+        } else {
+            fetch('/get-guest-count', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                localcount = data.count;
+                localcount -= 1;
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    searchRestaurants(lat, lng);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching guest count:', error);
+            });
         }
-
-        navigator.geolocation.getCurrentPosition(function(position) {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            searchRestaurants(lat, lng);
-        });
     });
 
     refreshLocationButton.addEventListener('click', function() {

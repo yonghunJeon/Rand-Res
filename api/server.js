@@ -222,3 +222,29 @@ app.post('/check-guest-location', async (req, res) => {
         res.status(500).json({ status: 'error', message: '위치 확인 실패: ' + err });
     }
 });
+
+app.post('/get-user-count', async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.body.username });
+        if (user) {
+            res.json({ count: user.count });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'Error fetching user count: ' + err });
+    }
+});
+
+app.post('/get-guest-count', async (req, res) => {
+    try {
+        const guest = await Guest.findOne({ guest: '게스트' });
+        if (guest) {
+            res.json({ count: guest.count });
+        } else {
+            res.status(404).json({ message: 'Guest not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'Error fetching guest count: ' + err });
+    }
+});
