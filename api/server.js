@@ -39,7 +39,8 @@ const userSchema = new mongoose.Schema({
     username: String,
     password: String,
     email: String,
-    count: { type: Number, default: 0 }
+    count: { type: Number, default: 0 },
+    time: { type: Date, default: Date.now }
 });
 
 const User = mongoose.model('User', userSchema);
@@ -50,7 +51,8 @@ const guestSchema = new mongoose.Schema({
     roadAddress: String,
     latitude: Number,
     longitude: Number,
-    count: { type: Number, default: 0 }
+    count: { type: Number, default: 0 },
+    time: { type: Date, default: Date.now }
 });
 
 const Guest = mongoose.model('Guest', guestSchema);
@@ -253,7 +255,7 @@ app.post('/update-user-count', async (req, res) => {
     try {
         const user = await User.findOneAndUpdate(
             { username: req.body.username },
-            { $set: { count: req.body.count } },
+            { $set: { count: req.body.count, time: new Date() } },
             { new: true }
         );
         if (user) {
@@ -270,7 +272,7 @@ app.post('/update-guest-count', async (req, res) => {
     try {
         const guest = await Guest.findOneAndUpdate(
             { guest: '게스트' },
-            { $set: { count: req.body.count } },
+            { $set: { count: req.body.count, time: new Date() } },
             { new: true }
         );
         if (guest) {
