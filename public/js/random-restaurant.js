@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
-                const localcount = data.count;
+                localcount = data.count;
                 if (localcount <= 0) {
                     Swal.fire({
                         icon: 'error',
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
-                const localcount = data.count;
+                localcount = data.count;
                 if (localcount <= 0) {
                     Swal.fire({
                         icon: 'error',
