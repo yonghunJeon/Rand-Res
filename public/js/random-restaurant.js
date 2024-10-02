@@ -129,7 +129,12 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({ username, count, time: new Date() })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             console.log('Count 업데이트 성공:', data);
         })
