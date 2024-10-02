@@ -248,13 +248,24 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
-                localcount = data.count;
-                localcount -= 1;
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    searchRestaurants(lat, lng);
-                });
+                const localcount = data.count;
+                if (localcount <= 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '추천 불가',
+                        text: '추천 횟수가 부족합니다.',
+                        confirmButtonText: '확인',
+                        heightAuto: false
+                    });
+                    recommendButton.disabled = true;
+                } else {
+                    localcount -= 1;
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        searchRestaurants(lat, lng);
+                    });
+                }
             })
             .catch(error => {
                 console.error('Error fetching user count:', error);
@@ -268,13 +279,24 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
-                localcount = data.count;
-                localcount -= 1;
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    searchRestaurants(lat, lng);
-                });
+                const localcount = data.count;
+                if (localcount <= 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '추천 불가',
+                        text: '추천 횟수가 부족합니다.',
+                        confirmButtonText: '확인',
+                        heightAuto: false
+                    });
+                    recommendButton.disabled = true;
+                } else {
+                    localcount -= 1;
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        searchRestaurants(lat, lng);
+                    });
+                }
             })
             .catch(error => {
                 console.error('Error fetching guest count:', error);
