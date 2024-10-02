@@ -256,9 +256,6 @@ app.post('/get-guest-count', async (req, res) => {
 app.post('/update-user-count', async (req, res) => {
     try {
         console.log('Received request to update user count:', req.body);
-        const currentTimeKST = moment().tz('Asia/Seoul').format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-        console.log('Current Time in KST:', currentTimeKST);
-        console.log('Time from client:', req.body.time);
         const user = await User.findOneAndUpdate(
             { username: req.body.username },
             { $set: { count: req.body.count, time: req.body.time } },
@@ -278,9 +275,6 @@ app.post('/update-user-count', async (req, res) => {
 app.post('/update-guest-count', async (req, res) => {
     try {
         console.log('Received request to update guest count:', req.body);
-        const currentTimeKST = moment().tz('Asia/Seoul').format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-        console.log('Current Time in KST:', currentTimeKST);
-        console.log('Time from client:', req.body.time);
         const guest = await Guest.findOneAndUpdate(
             { guest: '게스트' },
             { $set: { count: req.body.count, time: req.body.time } },
