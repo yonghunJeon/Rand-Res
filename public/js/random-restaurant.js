@@ -120,6 +120,24 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    function updateCount(username, count) {
+        const endpoint = username === '게스트' ? '/update-guest-count' : '/update-user-count';
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, count })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Count 업데이트 성공:', data);
+        })
+        .catch(error => {
+            console.error('Count 업데이트 오류:', error);
+        });
+    }
+
     function clearMarkers() {
         markers.forEach(marker => marker.setMap(null));
         markers = [];
@@ -178,6 +196,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         map.setCenter(selectedLatLng);
         console.log('Selected Restaurant:', selectedRestaurant.place_name);
+
+        const loggedInUsername = localStorage.getItem('loggedInUsername');
+        updateCount(loggedInUsername, localcount);
     }
 
     function searchRestaurants(lat, lng) {

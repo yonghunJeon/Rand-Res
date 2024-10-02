@@ -248,3 +248,37 @@ app.post('/get-guest-count', async (req, res) => {
         res.status(500).json({ message: 'Error fetching guest count: ' + err });
     }
 });
+
+app.post('/update-user-count', async (req, res) => {
+    try {
+        const user = await User.findOneAndUpdate(
+            { username: req.body.username },
+            { $set: { count: req.body.count } },
+            { new: true }
+        );
+        if (user) {
+            res.json({ status: 'success', count: user.count });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'Error updating user count: ' + err });
+    }
+});
+
+app.post('/update-guest-count', async (req, res) => {
+    try {
+        const guest = await Guest.findOneAndUpdate(
+            { guest: '게스트' },
+            { $set: { count: req.body.count } },
+            { new: true }
+        );
+        if (guest) {
+            res.json({ status: 'success', count: guest.count });
+        } else {
+            res.status(404).json({ message: 'Guest not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'Error updating guest count: ' + err });
+    }
+});
