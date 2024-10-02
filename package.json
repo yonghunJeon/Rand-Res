@@ -18,7 +18,6 @@
     "express-session": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.8.0",
-    "mongoose": "^8.5.3",
-    "moment-timezone": "^0.5.31"
+    "mongoose": "^8.5.3"
   }
 }

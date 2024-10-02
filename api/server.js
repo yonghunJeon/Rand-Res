@@ -253,10 +253,9 @@ app.post('/get-guest-count', async (req, res) => {
 
 app.post('/update-user-count', async (req, res) => {
     try {
-        const currentTimeKST = moment().tz('Asia/Seoul').format();
         const user = await User.findOneAndUpdate(
             { username: req.body.username },
-            { $set: { count: req.body.count, time: currentTimeKST } },
+            { $set: { count: req.body.count, time: new Date() } },
             { new: true }
         );
         if (user) {
@@ -271,10 +270,9 @@ app.post('/update-user-count', async (req, res) => {
 
 app.post('/update-guest-count', async (req, res) => {
     try {
-        const currentTimeKST = moment().tz('Asia/Seoul').format();
         const guest = await Guest.findOneAndUpdate(
             { guest: '게스트' },
-            { $set: { count: req.body.count, time: currentTimeKST } },
+            { $set: { count: req.body.count, time: new Date() } },
             { new: true }
         );
         if (guest) {
