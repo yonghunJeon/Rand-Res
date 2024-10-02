@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const path = require('path');
 const fetch = require('node-fetch');
+const { v4: uuidv4 } = require('uuid');
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -238,7 +239,8 @@ app.post('/get-user-count', async (req, res) => {
 
 app.post('/get-guest-count', async (req, res) => {
     try {
-        const guest = await Guest.findOne({ guest: '게스트' });
+        const guestId = req.cookies.guestId;
+        const guest = await Guest.findOne({ guest: '게스트', guestId: guestId });
         if (guest) {
             res.json({ count: guest.count });
         } else {
@@ -268,8 +270,9 @@ app.post('/update-user-count', async (req, res) => {
 
 app.post('/update-guest-count', async (req, res) => {
     try {
+        const guestId = req.cookies.guestId;
         const guest = await Guest.findOneAndUpdate(
-            { guest: '게스트' },
+            { guest: '게스트', guestId: guestId },
             { $set: { count: req.body.count } },
             { new: true }
         );
@@ -281,4 +284,10 @@ app.post('/update-guest-count', async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Error updating guest count: ' + err });
     }
+});
+
+app.post('/guest-login', (req, res) => {
+    const guestId = uuidv4();
+    res.cookie('guestId', guestId, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+    res.json({ guestId });
 });
