@@ -254,6 +254,7 @@ app.post('/get-guest-count', async (req, res) => {
 
 app.post('/update-user-count', async (req, res) => {
     try {
+        console.log('Received request to update user count:', req.body);
         const currentTimeKST = moment().tz('Asia/Seoul').format();
         console.log('Current Time in KST:', currentTimeKST);
         const user = await User.findOneAndUpdate(
@@ -267,12 +268,14 @@ app.post('/update-user-count', async (req, res) => {
             res.status(404).json({ message: 'User not found' });
         }
     } catch (err) {
+        console.error('Error updating user count:', err);
         res.status(500).json({ message: 'Error updating user count: ' + err });
     }
 });
 
 app.post('/update-guest-count', async (req, res) => {
     try {
+        console.log('Received request to update guest count:', req.body);
         const currentTimeKST = moment().tz('Asia/Seoul').format();
         console.log('Current Time in KST:', currentTimeKST);
         const guest = await Guest.findOneAndUpdate(
@@ -286,6 +289,7 @@ app.post('/update-guest-count', async (req, res) => {
             res.status(404).json({ message: 'Guest not found' });
         }
     } catch (err) {
+        console.error('Error updating guest count:', err);
         res.status(500).json({ message: 'Error updating guest count: ' + err });
     }
 });
