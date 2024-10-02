@@ -1,7 +1,7 @@
 document.getElementById('sign-up-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    let accesskey = document.getElementById('accesskey').value;
+    let accesskey = document.getElementById('accesskey').value || 'not allowed';
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('password-confirm').value;
