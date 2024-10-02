@@ -209,3 +209,16 @@ app.post('/save-guest-location', async (req, res) => {
         res.status(400).json({ status: 'error', message: '위치 저장 실패: ' + err });
     }
 });
+
+app.post('/check-guest-location', async (req, res) => {
+    try {
+        const guestLocation = await Guest.findOne({ guest: '게스트' });
+        if (guestLocation) {
+            res.json({ exists: true });
+        } else {
+            res.json({ exists: false });
+        }
+    } catch (err) {
+        res.status(500).json({ status: 'error', message: '위치 확인 실패: ' + err });
+    }
+});

@@ -8,6 +8,7 @@ let map;
 let marker;
 let specialMarker = null;
 let markers = [];
+let locationSaved = false;
 
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof naver === 'undefined' || !naver.maps) {
@@ -53,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 fetchReverseGeocode(position.coords.latitude, position.coords.longitude);
             }, function(error) {
                 console.error('Error occurred. Error code: ' + error.code);
-                // Handle error case
                 switch(error.code) {
                     case error.PERMISSION_DENIED:
                         alert("User denied the request for Geolocation.");
@@ -85,10 +85,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 jibunAddress: jibunAddress,
                 roadAddress: roadAddress,
                 latitude: latitude,
-                longitude: longitude
+                longitude: longitude,
+                count: 50
             })
         })
         .then(response => response.json())
+        .then(data => {
+            locationSaved = true;
+        })
     }
 
     function fetchReverseGeocode(lat, lng) {
@@ -103,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     jibunAddress = addresses.jibunAddress;
                     roadAddress = addresses.roadAddress;
 
-                    if (localStorage.getItem('loggedInUsername') === '게스트') {
+                    if (localStorage.getItem('loggedInUsername') === '게스트' && !locationSaved) {
                         saveGuestLocation(jibunAddress, roadAddress, lat, lng);
                     }
                 } else {
@@ -138,7 +142,6 @@ document.addEventListener('DOMContentLoaded', function() {
             <a href="${selectedRestaurant.place_url}" target="_blank" class="restaurant-link">자세히 보기</a>
         `;
 
-        // Add this line to change overflow to auto when restaurant info is displayed
         document.documentElement.style.overflow = 'auto';
         document.body.style.overflow = 'auto';
 
@@ -222,7 +225,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 fetchReverseGeocode(position.coords.latitude, position.coords.longitude);
             }, function(error) {
                 console.error('Error occurred. Error code: ' + error.code);
-                // Handle error case
                 switch(error.code) {
                     case error.PERMISSION_DENIED:
                         alert("User denied the request for Geolocation.");
@@ -242,6 +244,19 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Geolocation을 지원하지 않는 브라우저입니다.');
         }
     });
+
+    fetch('/check-guest-location', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.exists) {
+            locationSaved = true;
+        }
+    })
 
     initMap();
 });
@@ -273,7 +288,6 @@ function extractAddresses(results) {
     });
     console.log('Extracted Addresses:', { jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 });
 
-    // 커스텀 이벤트 생성 및 디스패치
     const addressEvent = new CustomEvent('addressExtracted', {
         detail: { jibunAddress, roadAddress, jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 }
     });
