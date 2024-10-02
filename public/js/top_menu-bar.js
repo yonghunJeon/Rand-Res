@@ -32,9 +32,13 @@ class HeaderComponent extends HTMLElement {
                 </ul>
             </nav>
         `;
-        
+
+        document.addEventListener('DOMContentLoaded', () => {
+            this.updateLocation();
+        });
+
         document.addEventListener('addressExtracted', (event) => {
-            const {jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 } = event.detail;
+            const { jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 } = event.detail;
             console.log('Received addresses:', { jibunAddress1, jibunAddress2, roadAddress1, roadAddress2 });
             this.updateLocation(jibunAddress1, jibunAddress2, roadAddress1, roadAddress2);
         });
@@ -42,15 +46,19 @@ class HeaderComponent extends HTMLElement {
 
     updateLocation(jibunAddress1, jibunAddress2, roadAddress1, roadAddress2) {
         const locationElement = document.getElementById('location');
-        locationElement.parentElement.innerHTML = `
-            <p style="text-align: center;">
-                <i2 class="fas fa-map-marker-alt"></i2>
-                <span>[지번] ${jibunAddress1}</span><br>
-                <span>${jibunAddress2}</span><br>
-                <span>[도로명] ${roadAddress1}</span><br>
-                <span>${roadAddress2}</span>
-            </p>
-        `;
+        if (locationElement && locationElement.parentElement) {
+            locationElement.parentElement.innerHTML = `
+                <p style="text-align: center;">
+                    <i2 class="fas fa-map-marker-alt"></i2>
+                    <span>[지번] ${jibunAddress1}</span><br>
+                    <span>${jibunAddress2}</span><br>
+                    <span>[도로명] ${roadAddress1}</span><br>
+                    <span>${roadAddress2}</span>
+                </p>
+            `;
+        } else {
+            console.error('Location element or its parent is not found.');
+        }
     }
 }
 
