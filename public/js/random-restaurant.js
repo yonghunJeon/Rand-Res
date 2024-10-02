@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.exists) {
             locationSaved = true;
         }
-    })
+    });
 
     initMap();
 });
