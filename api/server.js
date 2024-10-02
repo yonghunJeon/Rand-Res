@@ -8,11 +8,13 @@ const session = require('express-session');
 const path = require('path');
 const fetch = require('node-fetch');
 const { v4: uuidv4 } = require('uuid');
+const cookieParser = require('cookie-parser');
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '..', 'public'), {
     setHeaders: (res, path) => {
@@ -286,8 +288,19 @@ app.post('/update-guest-count', async (req, res) => {
     }
 });
 
-app.post('/guest-login', (req, res) => {
+app.post('/guest-login', async (req, res) => {
     const guestId = uuidv4();
-    res.cookie('guestId', guestId, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
-    res.json({ guestId });
+    try {
+        await Guest.create({ guest: '게스트', guestId: guestId, count: 50 });
+        res.cookie('guestId', guestId, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+        res.json({ guestId });
+    } catch (err) {
+        console.error('Error creating guest:', err);
+        res.status(500).json({ message: 'Error creating guest: ' + err });
+    }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
