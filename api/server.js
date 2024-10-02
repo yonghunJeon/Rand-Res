@@ -38,7 +38,8 @@ const userSchema = new mongoose.Schema({
     accesskey: String,
     username: String,
     password: String,
-    email: String
+    email: String,
+    count: { type: Number, default: 0 }
 });
 
 const User = mongoose.model('User', userSchema);
@@ -48,7 +49,8 @@ const guestSchema = new mongoose.Schema({
     jibunAddress: String,
     roadAddress: String,
     latitude: Number,
-    longitude: Number
+    longitude: Number,
+    count: { type: Number, default: 0 }
 });
 
 const Guest = mongoose.model('Guest', guestSchema);
@@ -56,11 +58,18 @@ const Guest = mongoose.model('Guest', guestSchema);
 app.post('/register', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        let count = 150;
+
+        if (req.body.accesskey === 'allowed') {
+            count = 500;
+        }
+
         const newUser = new User({
             accesskey: req.body.accesskey,
             username: req.body.username,
             password: hashedPassword,
-            email: req.body.email
+            email: req.body.email,
+            count: count
         });
 
         await newUser.save();
@@ -140,7 +149,7 @@ app.listen(port, () => {
 app.get('/search-restaurant', async (req, res) => {
     const { lat, lng } = req.query;
     const results = [];
-    const maxPages = 3; // 최대 3페이지까지 요청
+    const maxPages = 3;
 
     try {
         for (let page = 1; page <= maxPages; page++) {
@@ -190,7 +199,8 @@ app.post('/save-guest-location', async (req, res) => {
             jibunAddress: req.body.jibunAddress,
             roadAddress: req.body.roadAddress,
             latitude: req.body.latitude,
-            longitude: req.body.longitude
+            longitude: req.body.longitude,
+            count: req.body.count
         });
 
         await newGuest.save();
